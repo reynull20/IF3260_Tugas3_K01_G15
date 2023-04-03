@@ -1,0 +1,97 @@
+#viewport {
+    padding: 5px;
+    width: fit-content;
+    border: 1px solid black;
+}
+#container {
+    width: 100%;
+    display: flex;
+    /* flex-direction: colummn; */
+}
+#wrapper-left {
+    margin-left: 20px;
+}
+#tools {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    height: 600px;
+    padding-right: 50px;
+    overflow-y: scroll;
+}
+#transXValue {
+    margin-right: 10px;
+}
+
+.btn-rst {
+    margin-top: 10px;
+    font-size: larger;
+    background-color: rgb(51, 0, 255);
+    border: none;
+    padding: 10px;
+    color: #ffffff;
+    border-radius: 5px;
+}
+
+.button-cls {
+  background-color: #d2d2d2;
+  color: black;
+  padding: 10px 30px;
+  margin: 8px 0;
+  border: 1px solid;
+  border-color: #d2d2d2;
+  border-radius: 15px;
+  transition-duration: 300ms;
+}
+
+.button-cls:hover {
+  background-color: #e6e6e6;
+  color: rgb(52, 52, 52);
+  transition-duration: 300ms;
+  cursor: pointer;
+}
+
+.switch-toggle {
+    float: left;
+    background: #ACABAB;
+}
+.switch-toggle [name="state-d"] {
+    position: absolute;
+    opacity: 0;
+}
+.switch-toggle [name="state-d"] + [name="projection-label"] {
+    padding: 7px;
+    float:left;
+    color: #fff;
+    cursor: pointer;
+}
+
+.switch-toggle [name="state-d"]:checked + [name="projection-label"] {
+    background: rgb(61, 22, 255);
+}
+
+/* The alert message box */
+.alert {
+    padding: 20px;
+    background-color: #36cef4; /* Red */
+    color: rgb(58, 22, 22);
+    margin-bottom: 15px;
+  }
+  
+  /* The close button */
+  .closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  /* When moving the mouse over the close button */
+  .closebtn:hover {
+    color: black;
+  }

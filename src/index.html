@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="container">
+        <div id="wrapper-left">
+            <div id="viewport">
+                <canvas id="canvas" width="840" height="480"></canvas>
+            </div>
+            <button class="button-cls" id="btn-save" type="button">Save</button>
+            <button class="button-cls" id="btn-load" type="button">Load</button>
+            <button class="button-cls" id="btn-help" type="button" onclick="document.getElementById('alert').style.visibility='visible'">Help</button>
+            <div class="alert" id="alert" visibility="hidden">
+                <span class="closebtn" onclick="this.parentElement.style.visibility='hidden';">&times;</span>
+                <h2>Help Menu</h2>
+                <hr>
+                <h4><u>Initial Step</u></h4>
+                <ol>
+                    <li>Load a model(s) by clicking Load Button, models are in test folder</li>
+                    <li>Select a model from the dropdown list</li>
+                </ol>
+                <hr>
+                <h4><u>Projection Modes</u></h4>
+                <p>There are three projection modes:</p>
+                <ul>
+                    <li>Orthographic</li>
+                    <li>Perspective</li>
+                    <li>Oblique</li>
+                </ul>
+                <p>Choose one of Projection Mode and corresponding Projection Variables will be shown</p>
+                <hr>
+                <h4><u>Orthographic Projection</u></h4>
+                <p>Orthographic projection is a type of projection in which all lines parallel to the projection plane appear parallel in the image.</p>
+                <p>It is a special case of parallel projection.</p>
+                <p>List of Orthographic Variables</p>
+                <ul>
+                    <li>Near : Near Clip Plane</li>
+                    <li>Far  : Far Clip Plane</li>
+                </ul>
+                <hr>
+                <h4><u>Perspective Projection</u></h4>
+                <p>Perspective projection is a type of projection in which all lines parallel to the projection plane appear to converge on a vanishing point in the image.</p>
+                <p>List of Perspective Variables</p>
+                <ul>
+                    <li>Z Near : Near Clip Plane</li>
+                    <li>Z Far  : Far Clip Plane</li>
+                    <li>Field of View : Field of View</li>
+                </ul>
+                <hr>
+                <h4><u>Oblique Projection</u></h4>
+                <p>Oblique projection is a type of projection in which parelel lines skewed such that non-paralel line may be shown</p>
+                <p>List of Oblique Variables</p>
+                <ul>
+                    <li>Theta : Angle of Oblique Projection</li>
+                    <li>Phi   : Angle of Oblique Projection</li>
+                </ul>
+                <hr>
+                <h4><u>Camera</u></h4>
+                <p>Camera can be moved by using the following parameters</p>
+                <ul>
+                    <li>X Angle  : Rotate The Camera X axis</li>
+                    <li>Y Angle  : Rotate The Camera Y axis</li>
+                    <li>Up Angle : Rotate The Camera Up axis</li>
+                    <li>Radius   : Radius of the Camera</li>
+                </ul>
+                <hr>
+                <h4><u>Translation</u></h4>
+                <p>Apply translation transformation to selected model</p>
+                <hr>
+                <h4><u>Rotation</u></h4>
+                <p>Apply rotation transformation to selected model</p>
+                <hr>
+                <h4><u>Scale</u></h4>
+                <p>Apply scaling transformation to selected model</p>
+                <hr>
+                <h4><u>Shading</u></h4>
+                <ul>
+                    <li>Checked (default) : Apply shading with directional lighting</li>
+                    <li>Unchecked         : Unapply shading (all lit)</li>
+                </ul>
+                <hr>
+                <h4><u>Lighting</u></h4>
+                <p>Set the light position (for shading)</p>
+                <hr>
+                <h4><u>Reset View</u></h4>
+                <p>Reset the view configuration (i.e. camera & projection parameter) to it's default parameter</p>
+            </div>
+        </div>
+        <div id="tools">
+            <select id="select-model"></select>
+            <button class="btn-rst" onclick="resetView()">Reset View</button>
+            <h3>Projection Mode</h3>
+            <div class="switch-toggle switch-3 switch-candy">
+                <input id="Orthographic" name="state-d" type="radio" checked />
+                <label for="Orthographic" name="projection-label" onclick="">Orthographic</label>
+                
+                <input id="Perspective" name="state-d" type="radio" />
+                <label for="Perspective" name="projection-label" onclick="">Perspective</label>
+        
+                <input id="Oblique" name="state-d" type="radio" />
+                <label for="Oblique" name="projection-label" onclick="">Oblique</label>
+            </div>
+            <h3>Projection Variable</h3>
+            <div class="projection-util">
+                <div id="ortho-tools" style="display: block;">
+                    <label for="near">Near</label>
+                    <input type="range" name="near" id="near" value="-800" min="-2000" max="2000" oninput="nearValue.value = this.value" step="10">
+                    <output id="nearValue" for="near">-800</output>
+                    <br>
+                    <label for="far">Far</label>
+                    <input type="range" name="far" id="far" value="800" min="-2000" max="2000" oninput="farValue.value = this.value" step="10">
+                    <output id="farValue" for="far">800</output>
+                </div>
+                <div id="pers-util" style="display: none;">
+                    <label for="zNear">Z Near</label>
+                    <input type="range" name="zNear" id="zNear" value="1" min="1" max="1999" oninput="zNearValue.value = this.value">
+                    <output id="zNearValue" for="far">1</output>
+                    <br>
+                    <label for="zFar">Z Far</label>
+                    <input type="range" name="zFar" id="zFar" value="2000" min="2" max="2000" oninput="zFarValue.value = this.value">
+                    <output id="zFarValue" for="far">2000</output>
+                    <br>
+                    <label for="field-of-view">Field of View</label>
+                    <input type="range" name="field-of-view" id="field-of-view" value="100" min="1" max="179" oninput="fovValue.value=this.value">
+                    <output id="fovValue" for="field-of-view">100</output>
+                </div>
+                <div id="obl-util" style="display: none;">
+                    <label for="theta">Theta</label>
+                    <input type="range" name="theta" id="theta" value="75" min="0" max="360" oninput="thetaValue.value = this.value">
+                    <output id="thetaValue" for="theta">75</output>
+                    <br>
+                    <label for="phi">Phi</label>
+                    <input type="range" name="phi" id="phi" value="75" min="0" max="360" oninput="phiValue.value = this.value">
+                    <output id="phiValue" for="phi">75</output> 
+                </div>
+            </div>
+            <h3>Camera Test</h3>
+            <div>
+                <label for="camera-y-angle">Y angle</label>
+                <input type="range" name="camera-y-angle" id="camera-y-angle" value="0" min="-360" max="360" oninput="cameraYValue.value = this.value">
+                <output id="cameraYValue" for="camera-y-angle">0</output>
+            </div>
+            <div>
+                <label for="camera-x-angle">X angle</label>
+                <input type="range" name="camera-x-angle" id="camera-x-angle" value="0" min="-360" max="360" oninput="cameraXValue.value = this.value">
+                <output id="cameraXValue" for="camera-x-angle">0</output>
+            </div>
+            <div>
+                <label for="camera-up-angle">Up angle</label>
+                <input type="range" name="camera-up-angle" id="camera-up-angle" value="0" min="-360" max="360" oninput="cameraUpValue.value = this.value">
+                <output id="cameraUpValue" for="camera-up-angle">0</output>                                              
+            </div>
+            <div>
+                <label for="camera-radius">Radius</label>
+                <input type="range" name="camera-radius" id="camera-radius" value="400" min="0" max="800" oninput="cameraRadiusValue.value = this.value">
+                <output id="cameraRadiusValue" for="camera-radius">400</output>
+            </div>
+            <h3>Translation</h3>
+            <div class="input-range">
+                <label for="translation-x">X</label>
+                <input type="range" name="translation-x" id="translation-x" value="0" min="-420" max="420" oninput="transXValue.value=this.value">
+                <output id="transXValue" for="translation-x">0</output>
+                <br>
+                <label for="translation-y">Y</label>
+                <input type="range" name="translation-y" id="translation-y" value="0" min="-420" max="420" oninput="transYValue.value=this.value">
+                <output id="transYValue" for="translation-y">0</output>
+                <br>
+                <label for="translation-z">Z</label>
+                <input type="range" name="translation-z" id="translation-z" value="0" min="-420" max="420" oninput="transZValue.value=this.value">
+                <output id="transZValue" for="translation-z">0</output>
+            </div>
+            <h3>Rotation</h3>
+            <div class="input-range">
+                <label for="rotation">Rotation X axis</label>
+                <input type="range" name="rotation-x" id="rotation-x" value="0" min="0" max="360" oninput="rotationXValue.value=this.value">
+                <output id="rotationXValue" name="rotationXValue" for="rotation-x">0</output>
+                <br>
+                <label for="rotation">Rotation Y Axis</label>
+                <input type="range" name="rotation-y" id="rotation-y" value="0" min="0" max="360" oninput="rotationYValue.value=this.value">
+                <output id="rotationYValue" name="rotationYValue" for="rotation-y">0</output>
+                <br>
+                <label for="rotation">Rotation Z Axis</label>
+                <input type="range" name="rotation-z" id="rotation-z" value="0" min="0" max="360" oninput="rotationZValue.value=this.value">
+                <output id="rotationZValue" name="rotationZValue" for="rotation-z">0</output>
+            </div>
+            <h3>Scale</h3>
+            <div>
+                <label for="scale">Scale X</label>
+                <input type="range" name="scale-x" id="scale-x" value="1" min="0" max="3" oninput="scaleValX.value=this.value" step="0.01">
+                <output id="scaleValX" name="scaleValX" for="scale-x">1.00</output>
+                <br>
+                <label for="scale">Scale Y</label>
+                <input type="range" name="scale-y" id="scale-y" value="1" min="0" max="3" oninput="scaleValY.value=this.value" step="0.01">
+                <output id="scaleValY" name="scaleValY" for="scale-y">1.00</output>
+                <br>
+                <label for="scale">Scale Z</label>
+                <input type="range" name="scale-z" id="scale-z" value="1" min="0" max="3" oninput="scaleValZ.value=this.value" step="0.01">
+                <output id="scaleValZ" name="scaleValZ" for="scale-z">1.00</output>
+            </div>
+            <h3>Shading</h3>
+            <div>
+                <label for="shading">Shading</label>
+                <input type="checkbox" name="shading-check" id="shading-check" checked>
+            </div>
+            <h3>Lighting</h3>
+            <div>
+                <label for="light-x">X Part</label>
+                <input type="range" name="light-x" id="light-x" value="0" min="-1" max="1" step="0.01" oninput="lightX.value = this.value">
+                <output id="lightX" for="light-x">0</output>
+            </div>
+            <div>
+                <label for="light-y">Y Part</label>
+                <input type="range" name="light-y" id="light-y" value="0" min="-1" max="1" step="0.01" oninput="lightY.value = this.value">
+                <output id="lightY" for="light-y">0</output>
+            </div>
+            <div>
+                <label for="light-z">Z Part</label>
+                <input type="range" name="light-z" id="light-z" value="1" min="-1" max="1" step="0.01" oninput="lightZ.value = this.value">
+                <output id="lightZ" for="light-z">1</output>
+            </div>
+            
+        </div>
+    </div>
+
+    <script id="vertex-shader-3d" type="x-shader/x-vertex">
+        attribute vec4 a_position;
+        attribute vec4 a_color;
+        attribute vec3 a_normal;
+
+        uniform mat4 u_worldViewProjection;
+        uniform mat4 u_worldInverseTranspose;
+
+        varying vec4 v_color;
+        varying vec3 v_normal;
+
+        void main() {
+            gl_Position = u_worldViewProjection * a_position;
+
+            v_color = a_color;
+
+            v_normal = mat3(u_worldInverseTranspose) * a_normal;
+        }
+    </script>
+
+    <script id="fragment-shader-3d" type="x-shader/x-vertex">
+        precision mediump float;
+        varying vec4 v_color;
+        varying vec3 v_normal;
+
+        uniform vec3 u_reverseLightDirection;
+        uniform float u_light;
+        
+        void main() {
+            gl_FragColor = v_color;
+
+            vec3 normal = normalize(v_normal);
+            if (u_light > 0.0) {
+                float light = dot(normal, u_reverseLightDirection);
+                gl_FragColor.rgb *= light;
+            }
+        }
+    </script>
+    <script src="utility.js"></script>
+    <script src="model.js"></script>
+    <script src="state.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
