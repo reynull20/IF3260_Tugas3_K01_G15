@@ -110,6 +110,42 @@ function sliderRotateZ(e) {
     drawScene()
 }
 
+function artSliderTransX(event) {
+    selectedModel.ch_translation[0] = parseFloat(event.target.value)
+    selectedModel.updateMatrix()
+    drawScene()
+}
+
+function artSliderTransY(event) {
+    selectedModel.ch_translation[1] = parseFloat(event.target.value)
+    selectedModel.updateMatrix()
+    drawScene()
+}
+
+function artSliderTransZ(event) {
+    selectedModel.ch_translation[2] = parseFloat(event.target.value)
+    selectedModel.updateMatrix()
+    drawScene()
+}
+
+function artSliderRotateX(e) {
+    selectedModel.ch_rotation[0] = parseFloat(e.target.value) * Math.PI / 180
+    selectedModel.updateMatrix()
+    drawScene()
+}
+
+function artSliderRotateY(e) {
+    selectedModel.ch_rotation[1] = parseFloat(e.target.value) * Math.PI / 180
+    selectedModel.updateMatrix()
+    drawScene()
+}
+
+function artSliderRotateZ(e) {
+    selectedModel.ch_rotation[2] = parseFloat(e.target.value) * Math.PI / 180
+    selectedModel.updateMatrix()
+    drawScene()
+}
+
 function rotateX(angle) {
     let c = Math.cos(angle)
     let s = Math.sin(angle)
@@ -157,6 +193,27 @@ function sliderScaleY(e) {
 function sliderScaleZ(e) {
     let scaleFactorZ = parseFloat(e.target.value)
     selectedModel.scale[2] = scaleFactorZ
+    selectedModel.updateMatrix()
+    drawScene()
+}
+
+function artSliderScaleX(e) {
+    let scaleFactorX = parseFloat(e.target.value)
+    selectedModel.ch_scale[0] = scaleFactorX
+    selectedModel.updateMatrix()
+    drawScene()
+}
+
+function artSliderScaleY(e) {
+    let scaleFactorY = parseFloat(e.target.value)
+    selectedModel.ch_scale[1] = scaleFactorY
+    selectedModel.updateMatrix()
+    drawScene()
+}
+
+function artSliderScaleZ(e) {
+    let scaleFactorZ = parseFloat(e.target.value)
+    selectedModel.ch_scale[2] = scaleFactorZ
     selectedModel.updateMatrix()
     drawScene()
 }

@@ -203,6 +203,48 @@
                 <input type="range" name="scale-z" id="scale-z" value="1" min="0" max="3" oninput="scaleValZ.value=this.value" step="0.01">
                 <output id="scaleValZ" name="scaleValZ" for="scale-z">1.00</output>
             </div>
+            <h3>Articulated Translation</h3>
+            <div class="input-range">
+                <label for="art-translation-x">X</label>
+                <input type="range" name="art-translation-x" id="art-translation-x" value="0" min="-420" max="420" oninput="artTransXValue.value=this.value">
+                <output id="artTransXValue" for="art-translation-x">0</output>
+                <br>
+                <label for="art-translation-y">Y</label>
+                <input type="range" name="art-translation-y" id="art-translation-y" value="0" min="-420" max="420" oninput="artTransYValue.value=this.value">
+                <output id="artTransYValue" for="art-translation-y">0</output>
+                <br>
+                <label for="art-translation-z">Z</label>
+                <input type="range" name="art-translation-z" id="art-translation-z" value="0" min="-420" max="420" oninput="artTransZValue.value=this.value">
+                <output id="artTransZValue" for="art-translation-z">0</output>
+            </div>
+            <h3>Articulated Rotation</h3>
+            <div class="input-range">
+                <label for="art-rotation">Rotation X axis</label>
+                <input type="range" name="art-rotation-x" id="art-rotation-x" value="0" min="0" max="360" oninput="artRotationXValue.value=this.value">
+                <output id="artRotationXValue" name="artRotationXValue" for="art-rotation-x">0</output>
+                <br>
+                <label for="art-rotation">Rotation Y Axis</label>
+                <input type="range" name="art-rotation-y" id="art-rotation-y" value="0" min="0" max="360" oninput="artRotationYValue.value=this.value">
+                <output id="artRotationYValue" name="artRotationYValue" for="art-rotation-y">0</output>
+                <br>
+                <label for="art-rotation">Rotation Z Axis</label>
+                <input type="range" name="art-rotation-z" id="art-rotation-z" value="0" min="0" max="360" oninput="artRotationZValue.value=this.value">
+                <output id="artRotationZValue" name="artRotationZValue" for="art-rotation-z">0</output>
+            </div>
+            <h3>Articulated Scale</h3>
+            <div>
+                <label for="art-scale">Scale X</label>
+                <input type="range" name="art-scale-x" id="art-scale-x" value="1" min="0" max="3" oninput="artScaleValX.value=this.value" step="0.01">
+                <output id="artScaleValX" name="artScaleValX" for="art-scale-x">1.00</output>
+                <br>
+                <label for="art-scale">Scale Y</label>
+                <input type="range" name="art-scale-y" id="art-scale-y" value="1" min="0" max="3" oninput="artScaleValY.value=this.value" step="0.01">
+                <output id="artScaleValY" name="artScaleValY" for="art-scale-y">1.00</output>
+                <br>
+                <label for="art-scale">Scale Z</label>
+                <input type="range" name="art-scale-z" id="art-scale-z" value="1" min="0" max="3" oninput="artScaleValZ.value=this.value" step="0.01">
+                <output id="artScaleValZ" name="artScaleValZ" for="art-scale-z">1.00</output>
+            </div>
             <h3>Shading</h3>
             <div>
                 <label for="shading">Shading</label>

@@ -9,9 +9,10 @@ class Model {
         this.scale = [1, 1, 1];
         this.setupCenter();
         this.setupChilds(childs);
-        this.ch_translations = [0, 0, 0];
-        this.ch_rotations = [0, 0, 0];
-        this.ch_scales = [1, 1, 1];
+        this.ch_translation = [0, 0, 0];
+        this.ch_rotation = [0, 0, 0];
+        this.ch_scale = [1, 1, 1];
+        this.matrix_child = this.modelMatrixChild();
         this.matrix = this.modelMatrix();
     }
 
@@ -32,19 +33,34 @@ class Model {
     }
 
     updateMatrix = () => {
+        console.log(this.ch_translation, this.ch_rotation, this.ch_scale, this.center, this.translation, this.rotation, this.scale);
+        this.matrix_child = this.modelMatrixChild();
         this.matrix = this.modelMatrix();
     }
 
-    modelMatrix = () => {
+    modelMatrixChild = () => {
         let worldMatrix = m4.translation(this.center[0], this.center[1], this.center[2])
+        worldMatrix = m4.translate(worldMatrix, this.ch_translation[0], this.ch_translation[1], this.ch_translation[2]);
+        worldMatrix = m4.xRotate(worldMatrix, this.ch_rotation[0]);
+        worldMatrix = m4.yRotate(worldMatrix, this.ch_rotation[1]);
+        worldMatrix = m4.zRotate(worldMatrix, this.ch_rotation[2]);
+        worldMatrix = m4.scale(worldMatrix, this.ch_scale[0], this.ch_scale[1], this.ch_scale[2]);
+        worldMatrix = m4.translate(worldMatrix, this.center[0]*(-1), this.center[1]*(-1), this.center[2]*(-1));
+        return worldMatrix;
+    }
+
+    modelMatrix = () => {
+        let worldMatrix = m4.translation(this.center[0]+this.ch_translation[0], this.center[1]+this.ch_translation[1], this.center[2]+this.ch_translation[2])
         worldMatrix = m4.translate(worldMatrix, this.translation[0], this.translation[1], this.translation[2]);
         worldMatrix = m4.xRotate(worldMatrix, this.rotation[0]);
         worldMatrix = m4.yRotate(worldMatrix, this.rotation[1]);
         worldMatrix = m4.zRotate(worldMatrix, this.rotation[2]);
         worldMatrix = m4.scale(worldMatrix, this.scale[0], this.scale[1], this.scale[2]);
-        worldMatrix = m4.translate(worldMatrix, this.center[0]*(-1), this.center[1]*(-1), this.center[2]*(-1));
+        worldMatrix = m4.translate(worldMatrix, (this.center[0]+this.ch_translation[0])*(-1), (this.center[1]+this.ch_translation[1])*(-1), (this.center[2]+this.ch_translation[2])*(-1));
+        worldMatrix = m4.multiply(worldMatrix, this.matrix_child);
         return worldMatrix;
     }
+        
 
     manipulatedVertices = () => {
         let manipulatedVertices = [];
