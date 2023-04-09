@@ -432,6 +432,10 @@ function updateBuffers(model) {
     gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
     setNormals(gl, model.normals);
     normalBuffers.push(normalBuffer);
+
+    for (let i = 0; i < model.childs.length; i++) {
+        updateBuffers(model.childs[i]);
+    }
 }
 
 function drawScene() {
@@ -484,60 +488,67 @@ function drawScene() {
     gl.uniform3fv(reverseLightDirectionLocation, light);
     gl.uniform1f(lightLocation, shading? 1.0: 0.0);    
     
+    var idx = 0;
     for(let i = 0; i < models.length; i++) {
         let model = models[i];
 
-        gl.enableVertexAttribArray(positionAttrLoc)
-        gl.bindBuffer(gl.ARRAY_BUFFER,positionBuffers[i])
+        traverse = model.traverseAsArray();
 
-        var size = 3            // 2 component per iteration
-        var type = gl.FLOAT     // the data is 32-bit float
-        var normalize = false   // don't normalize the data
-        var stride = 0          // move forward size each iteration
-        var offset = 0          // Start at the beginning of the buffer
-        gl.vertexAttribPointer(
-            positionAttrLoc,size,type,normalize,stride,offset
-        )
+        for (let j = 0; j < traverse.length; j++) {
+            let model = traverse[j];
+            gl.enableVertexAttribArray(positionAttrLoc)
+            gl.bindBuffer(gl.ARRAY_BUFFER,positionBuffers[idx])
 
-        // Color 
-        gl.enableVertexAttribArray(colorLoc)
-        gl.bindBuffer(gl.ARRAY_BUFFER,colorBuffers[i])
-    
-        var size = 3;                 // 3 components per iteration
-        var type = gl.UNSIGNED_BYTE;  // the data is 8bit unsigned values
-        var normalize = true;         // normalize the data (convert from 0-255 to 0-1)
-        var stride = 0;               // 0 = move forward size * sizeof(type) each iteration to get the next position
-        var offset = 0;               // start at the beginning of the buffer
-        gl.vertexAttribPointer(
-            colorLoc, size, type, normalize, stride, offset);
-            
-        // Normal
-        gl.enableVertexAttribArray(normalLoc)
-        gl.bindBuffer(gl.ARRAY_BUFFER,normalBuffers[i])
+            var size = 3            // 2 component per iteration
+            var type = gl.FLOAT     // the data is 32-bit float
+            var normalize = false   // don't normalize the data
+            var stride = 0          // move forward size each iteration
+            var offset = 0          // Start at the beginning of the buffer
+            gl.vertexAttribPointer(
+                positionAttrLoc,size,type,normalize,stride,offset
+            )
+
+            // Color 
+            gl.enableVertexAttribArray(colorLoc)
+            gl.bindBuffer(gl.ARRAY_BUFFER,colorBuffers[idx])
         
-        var size = 3;                 // 3 components per iteration
-        var type = gl.FLOAT;          // the data is 32bit floats
-        var normalize = false;        // don't normalize the data
-        var stride = 0;               // 0 = move forward size * sizeof(type) each iteration to get the next position
-        var offset = 0;               // start at the beginning of the buffer
-        gl.vertexAttribPointer(
-            normalLoc, size, type, normalize, stride, offset);
+            var size = 3;                 // 3 components per iteration
+            var type = gl.UNSIGNED_BYTE;  // the data is 8bit unsigned values
+            var normalize = true;         // normalize the data (convert from 0-255 to 0-1)
+            var stride = 0;               // 0 = move forward size * sizeof(type) each iteration to get the next position
+            var offset = 0;               // start at the beginning of the buffer
+            gl.vertexAttribPointer(
+                colorLoc, size, type, normalize, stride, offset);
+                
+            // Normal
+            gl.enableVertexAttribArray(normalLoc)
+            gl.bindBuffer(gl.ARRAY_BUFFER,normalBuffers[idx])
+            
+            var size = 3;                 // 3 components per iteration
+            var type = gl.FLOAT;          // the data is 32bit floats
+            var normalize = false;        // don't normalize the data
+            var stride = 0;               // 0 = move forward size * sizeof(type) each iteration to get the next position
+            var offset = 0;               // start at the beginning of the buffer
+            gl.vertexAttribPointer(
+                normalLoc, size, type, normalize, stride, offset);
 
-        var worldMatrix = model.matrix;
+            var worldMatrix = model.matrix;
 
-        var worldViewProjectionMatrix = m4.multiply(viewProjectionMatrix, worldMatrix);
-        var worldInverseMatrix = m4.inverse(worldMatrix);
-        var worldInverseTransposeMatrix = m4.transpose(worldInverseMatrix);
+            var worldViewProjectionMatrix = m4.multiply(viewProjectionMatrix, worldMatrix);
+            var worldInverseMatrix = m4.inverse(worldMatrix);
+            var worldInverseTransposeMatrix = m4.transpose(worldInverseMatrix);
 
-        // Bind the matrix
-        gl.uniformMatrix4fv(worldViewProjectionLoc,false,worldViewProjectionMatrix);
-        gl.uniformMatrix4fv(worldInverseTransposeLoc,false,worldInverseTransposeMatrix);
+            // Bind the matrix
+            gl.uniformMatrix4fv(worldViewProjectionLoc,false,worldViewProjectionMatrix);
+            gl.uniformMatrix4fv(worldInverseTransposeLoc,false,worldInverseTransposeMatrix);
 
-        // Draw rectangle
-        var primitiveTypes = gl.TRIANGLES
-        var offset = 0
-        var count = model.vertices.length
-        gl.drawArrays(primitiveTypes,offset,count)        
+            // Draw rectangle
+            var primitiveTypes = gl.TRIANGLES
+            var offset = 0
+            var count = model.vertices.length
+            gl.drawArrays(primitiveTypes,offset,count)
+            idx++;
+        }
     }
 }
 

@@ -8,11 +8,27 @@ class Model {
         this.rotation = [0, 0, 0];
         this.scale = [1, 1, 1];
         this.setupCenter();
-        this.childs = childs;
+        this.setupChilds(childs);
         this.ch_translations = [0, 0, 0];
         this.ch_rotations = [0, 0, 0];
         this.ch_scales = [1, 1, 1];
         this.matrix = this.modelMatrix();
+    }
+
+    setupChilds = (childs) => {
+        this.childs = [];
+        for (let i = 0; i < childs.length; i++) {
+            this.childs.push(new Model(childs[i].id, childs[i].vertices, childs[i].colors, childs[i].childs));
+        }
+    }
+    
+    traverseAsArray = () => {
+        let array = [];
+        array.push(this);
+        for (let i = 0; i < this.childs.length; i++) {
+            array = array.concat(this.childs[i].traverseAsArray());
+        }
+        return array;
     }
 
     updateMatrix = () => {
