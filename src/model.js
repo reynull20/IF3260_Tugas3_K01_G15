@@ -32,13 +32,16 @@ class Model {
         return array;
     }
 
-    updateMatrix = () => {
-        console.log(this.ch_translation, this.ch_rotation, this.ch_scale, this.center, this.translation, this.rotation, this.scale);
-        this.matrix_child = this.modelMatrixChild();
-        this.matrix = this.modelMatrix();
+    updateMatrix = (parentMatrix = m4.identity()) => {
+        this.matrix_child = this.modelMatrixChild(parentMatrix);
+        this.matrix = this.modelMatrix(parentMatrix);
+
+        for (let i = 0; i < this.childs.length; i++) {
+            this.childs[i].updateMatrix(this.matrix_child);
+        }
     }
 
-    modelMatrixChild = () => {
+    modelMatrixChild = (parentMatrix = m4.identity()) => {
         let worldMatrix = m4.translation(this.center[0], this.center[1], this.center[2])
         worldMatrix = m4.translate(worldMatrix, this.ch_translation[0], this.ch_translation[1], this.ch_translation[2]);
         worldMatrix = m4.xRotate(worldMatrix, this.ch_rotation[0]);
@@ -46,6 +49,7 @@ class Model {
         worldMatrix = m4.zRotate(worldMatrix, this.ch_rotation[2]);
         worldMatrix = m4.scale(worldMatrix, this.ch_scale[0], this.ch_scale[1], this.ch_scale[2]);
         worldMatrix = m4.translate(worldMatrix, this.center[0]*(-1), this.center[1]*(-1), this.center[2]*(-1));
+        worldMatrix = m4.multiply(worldMatrix, parentMatrix);
         return worldMatrix;
     }
 
