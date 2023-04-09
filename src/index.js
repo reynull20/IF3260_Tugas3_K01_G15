@@ -453,7 +453,6 @@ function drawScene() {
     switch (projectionMode) {
         case ProjectMode.ORTHOGRAPHIC:
             matrix = m4.orthographic(left,right,bottom,top,near,far)
-            console.log(matrix);
             break;
         
         case ProjectMode.PERSPECTIVE:
@@ -477,8 +476,6 @@ function drawScene() {
     var up = m4.getManipulatedVertex([0,1,0], m4.zRotation(cameraUpAngle));
     up = m4.getManipulatedVertex(up, cameraMatrix);
     var cameraPosition = [cameraMatrix[12], cameraMatrix[13], cameraMatrix[14]];
-    console.log("Camera position:", cameraPosition);
-    console.log("up: ", up);
     var cameraMatrix = m4.lookAtOrigin(cameraPosition, up);
 
     var viewMatrix = m4.inverse(cameraMatrix)
@@ -486,8 +483,7 @@ function drawScene() {
 
     gl.uniform3fv(reverseLightDirectionLocation, light);
     gl.uniform1f(lightLocation, shading? 1.0: 0.0);    
-
-    console.log("models.length: ", models.length)
+    
     for(let i = 0; i < models.length; i++) {
         let model = models[i];
 
@@ -527,13 +523,7 @@ function drawScene() {
         gl.vertexAttribPointer(
             normalLoc, size, type, normalize, stride, offset);
 
-        var worldMatrix = m4.translation(model.center[0], model.center[1], model.center[2])
-        worldMatrix = m4.translate(worldMatrix, model.translation[0], model.translation[1], model.translation[2]);
-        worldMatrix = m4.xRotate(worldMatrix, model.rotation[0]);
-        worldMatrix = m4.yRotate(worldMatrix, model.rotation[1]);
-        worldMatrix = m4.zRotate(worldMatrix, model.rotation[2]);
-        worldMatrix = m4.scale(worldMatrix, model.scale[0], model.scale[1], model.scale[2]);
-        worldMatrix = m4.translate(worldMatrix, model.center[0]*(-1), model.center[1]*(-1), model.center[2]*(-1));
+        var worldMatrix = model.matrix;
 
         var worldViewProjectionMatrix = m4.multiply(viewProjectionMatrix, worldMatrix);
         var worldInverseMatrix = m4.inverse(worldMatrix);

@@ -1,5 +1,5 @@
 class Model {
-    constructor(id = -1, vertices = [], colors = []) {
+    constructor(id = -1, vertices = [], colors = [], childs = []) {
         this.id = id;
         this.vertices = vertices;
         this.colors = colors;
@@ -8,6 +8,26 @@ class Model {
         this.rotation = [0, 0, 0];
         this.scale = [1, 1, 1];
         this.setupCenter();
+        this.childs = childs;
+        this.ch_translations = [0, 0, 0];
+        this.ch_rotations = [0, 0, 0];
+        this.ch_scales = [1, 1, 1];
+        this.matrix = this.modelMatrix();
+    }
+
+    updateMatrix = () => {
+        this.matrix = this.modelMatrix();
+    }
+
+    modelMatrix = () => {
+        let worldMatrix = m4.translation(this.center[0], this.center[1], this.center[2])
+        worldMatrix = m4.translate(worldMatrix, this.translation[0], this.translation[1], this.translation[2]);
+        worldMatrix = m4.xRotate(worldMatrix, this.rotation[0]);
+        worldMatrix = m4.yRotate(worldMatrix, this.rotation[1]);
+        worldMatrix = m4.zRotate(worldMatrix, this.rotation[2]);
+        worldMatrix = m4.scale(worldMatrix, this.scale[0], this.scale[1], this.scale[2]);
+        worldMatrix = m4.translate(worldMatrix, this.center[0]*(-1), this.center[1]*(-1), this.center[2]*(-1));
+        return worldMatrix;
     }
 
     manipulatedVertices = () => {
@@ -30,7 +50,6 @@ class Model {
                 manipulatedVertices.push(manipulatedVertex[j]);
             }
         }
-        console.log(manipulatedVertices);
         return manipulatedVertices;
     }
 

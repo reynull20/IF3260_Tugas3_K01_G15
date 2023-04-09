@@ -37,7 +37,7 @@ loadModels = () => {
             inputModels = JSON.parse(content);
             for (let i = 0; i < inputModels.length; i++) {
                 let inputModel = inputModels[i];
-                let model = new Model(models.length, inputModel.vertices, inputModel.colors);
+                let model = new Model(models.length, inputModel.vertices, inputModel.colors, inputModel.childs);
                 updateBuffers(model);
                 models.push(model);
             }
@@ -76,31 +76,37 @@ setupSelectedModel = () => {
 
 function sliderTransX(event) {
     selectedModel.translation[0] = parseFloat(event.target.value)
+    selectedModel.updateMatrix()
     drawScene()
 }
 
 function sliderTransY(event) {
     selectedModel.translation[1] = parseFloat(event.target.value)
+    selectedModel.updateMatrix()
     drawScene()
 }
 
 function sliderTransZ(event) {
     selectedModel.translation[2] = parseFloat(event.target.value)
+    selectedModel.updateMatrix()
     drawScene()
 }
 
 function sliderRotateX(e) {
     selectedModel.rotation[0] = parseFloat(e.target.value) * Math.PI / 180
+    selectedModel.updateMatrix()
     drawScene()
 }
 
 function sliderRotateY(e) {
     selectedModel.rotation[1] = parseFloat(e.target.value) * Math.PI / 180
+    selectedModel.updateMatrix()
     drawScene()
 }
 
 function sliderRotateZ(e) {
     selectedModel.rotation[2] = parseFloat(e.target.value) * Math.PI / 180
+    selectedModel.updateMatrix()
     drawScene()
 }
 
@@ -137,18 +143,21 @@ function rotateZ(angle) {
 function sliderScaleX(e) {
     let scaleFactorX = parseFloat(e.target.value)
     selectedModel.scale[0] = scaleFactorX
+    selectedModel.updateMatrix()
     drawScene()
 }
 
 function sliderScaleY(e) {
     let scaleFactorY = parseFloat(e.target.value)
     selectedModel.scale[1] = scaleFactorY
+    selectedModel.updateMatrix()
     drawScene()
 }
 
 function sliderScaleZ(e) {
     let scaleFactorZ = parseFloat(e.target.value)
     selectedModel.scale[2] = scaleFactorZ
+    selectedModel.updateMatrix()
     drawScene()
 }
 
