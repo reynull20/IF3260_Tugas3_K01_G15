@@ -37,7 +37,7 @@ loadModels = () => {
             inputModels = JSON.parse(content);
             for (let i = 0; i < inputModels.length; i++) {
                 let inputModel = inputModels[i];
-                let model = new Model(models.length, inputModel.vertices, inputModel.colors, inputModel.childs);
+                let model = new Model(models.length, inputModel.name, inputModel.vertices, inputModel.colors, inputModel.childs);
                 updateBuffers(model);
                 models.push(model);
             }
@@ -46,6 +46,7 @@ loadModels = () => {
                 selectModel.appendChild(new Option("Model " + (i), i));
             }
             selectedModel = models[0];
+            selectedComponent = selectedModel;
             setupSelectedModel();
             drawScene();
         }
@@ -54,95 +55,141 @@ loadModels = () => {
 }
 
 setupSelectedModel = () => {
-    sliderTranslationX.value = selectedModel.translation[0];
+    let componentName = document.getElementById("current-component");
+    componentName.innerHTML = selectedModel.name;
+    let tree = document.getElementById("component-tree");
+    tree.innerHTML = "";
+    setupComponentButtons(selectedModel, 0);
+    setupSelectedComponent(selectedModel);
+}
+
+setupSelectedComponent = (model) => {
+    sliderTranslationX.value = model.translation[0];
     document.getElementById("transXValue").value = sliderTranslationX.value;
-    sliderTranslationY.value = selectedModel.translation[1];
+    sliderTranslationY.value = model.translation[1];
     document.getElementById("transYValue").value = sliderTranslationY.value;
-    sliderTranslationZ.value = selectedModel.translation[2];
+    sliderTranslationZ.value = model.translation[2];
     document.getElementById("transZValue").value = sliderTranslationZ.value;
-    sliderRotationX.value = selectedModel.rotation[0] * 180 / Math.PI;
+    sliderRotationX.value = model.rotation[0] * 180 / Math.PI;
     document.getElementById("rotationXValue").value = sliderRotationX.value;
-    sliderRotationY.value = selectedModel.rotation[1] * 180 / Math.PI;
+    sliderRotationY.value = model.rotation[1] * 180 / Math.PI;
     document.getElementById("rotationYValue").value = sliderRotationY.value;
-    sliderRotationZ.value = selectedModel.rotation[2] * 180 / Math.PI;
+    sliderRotationZ.value = model.rotation[2] * 180 / Math.PI;
     document.getElementById("rotationZValue").value = sliderRotationZ.value;
-    sliderScalingX.value = selectedModel.scale[0];
+    sliderScalingX.value = model.scale[0];
     document.getElementById("scaleValX").value = sliderScalingX.value;
-    sliderScalingY.value = selectedModel.scale[1];
+    sliderScalingY.value = model.scale[1];
     document.getElementById("scaleValY").value = sliderScalingY.value;
-    sliderScalingZ.value = selectedModel.scale[2];
+    sliderScalingZ.value = model.scale[2];
     document.getElementById("scaleValZ").value = sliderScalingZ.value;
+    artSliderTranslationX.value = model.ch_translation[0];
+    document.getElementById("artTransXValue").value = artSliderTranslationX.value;
+    artSliderTranslationY.value = model.ch_translation[1];
+    document.getElementById("artTransYValue").value = artSliderTranslationY.value;
+    artSliderTranslationZ.value = model.ch_translation[2];
+    document.getElementById("artTransZValue").value = artSliderTranslationZ.value;
+    artSliderRotationX.value = model.ch_rotation[0] * 180 / Math.PI;
+    document.getElementById("artRotationXValue").value = artSliderRotationX.value;
+    artSliderRotationY.value = model.ch_rotation[1] * 180 / Math.PI;
+    document.getElementById("artRotationYValue").value = artSliderRotationY.value;
+    artSliderRotationZ.value = model.ch_rotation[2] * 180 / Math.PI;
+    document.getElementById("artRotationZValue").value = artSliderRotationZ.value;
+    artSliderScalingX.value = model.ch_scale[0];
+    document.getElementById("artScaleValX").value = artSliderScalingX.value;
+    artSliderScalingY.value = model.ch_scale[1];
+    document.getElementById("artScaleValY").value = artSliderScalingY.value;
+    artSliderScalingZ.value = model.ch_scale[2];
+    document.getElementById("artScaleValZ").value = artSliderScalingZ.value;
+}
+
+setupComponentButtons = (model, depth) => {
+    let tree = document.getElementById("component-tree");
+    // Create button and append as new row
+    let button = document.createElement("button");
+    button.innerHTML = model.name;
+    button.style.marginLeft = depth * 20 + "px";
+    button.className = "btn-comp";
+    button.onclick = () => {
+        let componentName = document.getElementById("current-component");
+        componentName.innerHTML = model.name;
+        selectedComponent = model;
+        setupSelectedComponent(model);
+    }
+    tree.insertRow().insertCell().appendChild(button);
+    for (let i = 0; i < model.childs.length; i++) {
+        setupComponentButtons(model.childs[i], depth + 1);
+    }
 }
 
 function sliderTransX(event) {
-    selectedModel.translation[0] = parseFloat(event.target.value)
-    selectedModel.updateMatrix()
+    selectedComponent.translation[0] = parseFloat(event.target.value)
+    selectedComponent.updateMatrix()
     drawScene()
 }
 
 function sliderTransY(event) {
-    selectedModel.translation[1] = parseFloat(event.target.value)
-    selectedModel.updateMatrix()
+    selectedComponent.translation[1] = parseFloat(event.target.value)
+    selectedComponent.updateMatrix()
     drawScene()
 }
 
 function sliderTransZ(event) {
-    selectedModel.translation[2] = parseFloat(event.target.value)
-    selectedModel.updateMatrix()
+    selectedComponent.translation[2] = parseFloat(event.target.value)
+    selectedComponent.updateMatrix()
     drawScene()
 }
 
 function sliderRotateX(e) {
-    selectedModel.rotation[0] = parseFloat(e.target.value) * Math.PI / 180
-    selectedModel.updateMatrix()
+    selectedComponent.rotation[0] = parseFloat(e.target.value) * Math.PI / 180
+    selectedComponent.updateMatrix()
     drawScene()
 }
 
 function sliderRotateY(e) {
-    selectedModel.rotation[1] = parseFloat(e.target.value) * Math.PI / 180
-    selectedModel.updateMatrix()
+    selectedComponent.rotation[1] = parseFloat(e.target.value) * Math.PI / 180
+    selectedComponent.updateMatrix()
     drawScene()
 }
 
 function sliderRotateZ(e) {
-    selectedModel.rotation[2] = parseFloat(e.target.value) * Math.PI / 180
-    selectedModel.updateMatrix()
+    selectedComponent.rotation[2] = parseFloat(e.target.value) * Math.PI / 180
+    selectedComponent.updateMatrix()
     drawScene()
 }
 
 function artSliderTransX(event) {
-    selectedModel.ch_translation[0] = parseFloat(event.target.value)
-    selectedModel.updateMatrix()
+    selectedComponent.ch_translation[0] = parseFloat(event.target.value)
+    selectedComponent.updateMatrix()
     drawScene()
 }
 
 function artSliderTransY(event) {
-    selectedModel.ch_translation[1] = parseFloat(event.target.value)
-    selectedModel.updateMatrix()
+    selectedComponent.ch_translation[1] = parseFloat(event.target.value)
+    selectedComponent.updateMatrix()
     drawScene()
 }
 
 function artSliderTransZ(event) {
-    selectedModel.ch_translation[2] = parseFloat(event.target.value)
-    selectedModel.updateMatrix()
+    selectedComponent.ch_translation[2] = parseFloat(event.target.value)
+    selectedComponent.updateMatrix()
     drawScene()
 }
 
 function artSliderRotateX(e) {
-    selectedModel.ch_rotation[0] = parseFloat(e.target.value) * Math.PI / 180
-    selectedModel.updateMatrix()
+    selectedComponent.ch_rotation[0] = parseFloat(e.target.value) * Math.PI / 180
+    selectedComponent.updateMatrix()
     drawScene()
 }
 
 function artSliderRotateY(e) {
-    selectedModel.ch_rotation[1] = parseFloat(e.target.value) * Math.PI / 180
-    selectedModel.updateMatrix()
+    selectedComponent.ch_rotation[1] = parseFloat(e.target.value) * Math.PI / 180
+    selectedComponent.updateMatrix()
     drawScene()
 }
 
 function artSliderRotateZ(e) {
-    selectedModel.ch_rotation[2] = parseFloat(e.target.value) * Math.PI / 180
-    selectedModel.updateMatrix()
+    selectedComponent.ch_rotation[2] = parseFloat(e.target.value) * Math.PI / 180
+    selectedComponent.updateMatrix()
     drawScene()
 }
 
@@ -178,43 +225,43 @@ function rotateZ(angle) {
 
 function sliderScaleX(e) {
     let scaleFactorX = parseFloat(e.target.value)
-    selectedModel.scale[0] = scaleFactorX
-    selectedModel.updateMatrix()
+    selectedComponent.scale[0] = scaleFactorX
+    selectedComponent.updateMatrix()
     drawScene()
 }
 
 function sliderScaleY(e) {
     let scaleFactorY = parseFloat(e.target.value)
-    selectedModel.scale[1] = scaleFactorY
-    selectedModel.updateMatrix()
+    selectedComponent.scale[1] = scaleFactorY
+    selectedComponent.updateMatrix()
     drawScene()
 }
 
 function sliderScaleZ(e) {
     let scaleFactorZ = parseFloat(e.target.value)
-    selectedModel.scale[2] = scaleFactorZ
-    selectedModel.updateMatrix()
+    selectedComponent.scale[2] = scaleFactorZ
+    selectedComponent.updateMatrix()
     drawScene()
 }
 
 function artSliderScaleX(e) {
     let scaleFactorX = parseFloat(e.target.value)
-    selectedModel.ch_scale[0] = scaleFactorX
-    selectedModel.updateMatrix()
+    selectedComponent.ch_scale[0] = scaleFactorX
+    selectedComponent.updateMatrix()
     drawScene()
 }
 
 function artSliderScaleY(e) {
     let scaleFactorY = parseFloat(e.target.value)
-    selectedModel.ch_scale[1] = scaleFactorY
-    selectedModel.updateMatrix()
+    selectedComponent.ch_scale[1] = scaleFactorY
+    selectedComponent.updateMatrix()
     drawScene()
 }
 
 function artSliderScaleZ(e) {
     let scaleFactorZ = parseFloat(e.target.value)
-    selectedModel.ch_scale[2] = scaleFactorZ
-    selectedModel.updateMatrix()
+    selectedComponent.ch_scale[2] = scaleFactorZ
+    selectedComponent.updateMatrix()
     drawScene()
 }
 

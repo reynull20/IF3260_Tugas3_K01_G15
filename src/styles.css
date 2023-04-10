@@ -20,6 +20,15 @@
     padding-right: 50px;
     overflow-y: scroll;
 }
+#components {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    height: 600px;
+    padding-right: 50px;
+    overflow-y: scroll;
+}
 #transXValue {
     margin-right: 10px;
 }
@@ -32,6 +41,21 @@
     padding: 10px;
     color: #ffffff;
     border-radius: 5px;
+}
+
+.btn-comp {
+    margin-top: 10px;
+    font-size: normal;
+    background-color: rgb(51, 0, 255);
+    border: none;
+    padding: 10px;
+    color: #ffffff;
+    border-radius: 2px;
+}
+.btn-comp:hover {
+    background-color: rgb(0, 0, 0);
+    color: #ffffff;
+    cursor: pointer;
 }
 
 .button-cls {

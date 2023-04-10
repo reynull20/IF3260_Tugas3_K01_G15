@@ -1,5 +1,5 @@
 class Model {
-    constructor(id = -1, vertices = [], colors = [], childs = []) {
+    constructor(id = -1, name = "Undefined", vertices = [], colors = [], childs = []) {
         this.id = id;
         this.vertices = vertices;
         this.colors = colors;
@@ -14,12 +14,13 @@ class Model {
         this.ch_scale = [1, 1, 1];
         this.matrix_child = this.modelMatrixChild();
         this.matrix = this.modelMatrix();
+        this.name = name;
     }
 
     setupChilds = (childs) => {
         this.childs = [];
         for (let i = 0; i < childs.length; i++) {
-            this.childs.push(new Model(childs[i].id, childs[i].vertices, childs[i].colors, childs[i].childs));
+            this.childs.push(new Model(childs[i].id, childs[i].name, childs[i].vertices, childs[i].colors, childs[i].childs));
         }
     }
     

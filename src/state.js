@@ -56,6 +56,7 @@ sliderOblPhi.addEventListener("input", changeOblPhi)
 
 var models = [];
 var selectedModel = null;
+var selectedComponentId = null;
 var cameraYAngle = degToRad(0);
 var cameraXAngle = degToRad(0);
 var cameraUpAngle = degToRad(0);
