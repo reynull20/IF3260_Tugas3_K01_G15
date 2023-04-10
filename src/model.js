@@ -61,7 +61,7 @@ class Model {
         worldMatrix = m4.zRotate(worldMatrix, this.rotation[2]);
         worldMatrix = m4.scale(worldMatrix, this.scale[0], this.scale[1], this.scale[2]);
         worldMatrix = m4.translate(worldMatrix, (this.center[0]+this.ch_translation[0])*(-1), (this.center[1]+this.ch_translation[1])*(-1), (this.center[2]+this.ch_translation[2])*(-1));
-        worldMatrix = m4.multiply(worldMatrix, this.matrix_child);
+        worldMatrix = m4.multiply(this.matrix_child, worldMatrix);
         return worldMatrix;
     }
         
