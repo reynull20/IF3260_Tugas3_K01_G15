@@ -43,6 +43,9 @@ loadModels = () => {
                     let model = new Model(models.length, inputModel.name, inputModel.vertices, inputModel.colors, inputModel.childs);
                     updateBuffers(model, i);
                     // Check if models have enough frames else add empty frames
+                    if (selectFrame.length-1 < i) {
+                        selectFrame.appendChild(new Option("Frame " + (i), i));
+                    }
                     if (models.length-1 < i) {
                         models.push([]);
                     }

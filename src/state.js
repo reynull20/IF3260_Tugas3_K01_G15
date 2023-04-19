@@ -67,6 +67,16 @@ var shading = true;
 var frame = 0;
 
 selectModel.addEventListener("input", function (event) {
-    selectedModel = models[parseInt(event.target.value)];
+    selectedModel = models[frame][parseInt(event.target.value)];
+    selectedComponent = selectedModel;
     setupSelectedModel();
+});
+
+const selectFrame = document.getElementById("select-frame");
+selectFrame.addEventListener("input", function (event) {
+    frame = parseInt(event.target.value);
+    selectedModel = models[frame][0];
+    selectedComponent = selectedModel;
+    setupSelectedModel();
+    drawScene();
 });
