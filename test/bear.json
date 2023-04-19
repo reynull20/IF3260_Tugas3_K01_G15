@@ -89,12 +89,6 @@
     "translation" : [0, 0, 0],
     "rotation" : [0, 0, 0],
     "scale" : [1, 1, 1],
-    "joint":[
-        0, 0, 0, 0,
-        0, 0, 0, 0, 
-        0, 0, 0, 0,
-        0, 0, 0, 0
-    ],
 
     "ch_translation": [0, 0, 0],
     "ch_rotation": [0, 0, 0],
@@ -199,12 +193,6 @@
             "translation" : [0, 0, 0],
             "rotation" : [0, 0, 0],
             "scale" : [1, 1, 1],
-            "joint":[
-                0, 0, 0, 0,
-                0, 0, 0, 0, 
-                0, 0, 0, 0,
-                0, 0, 0, 0
-            ],
 
             "ch_translation": [0, 0, 0],
             "ch_rotation": [0, 0, 0],
@@ -218,7 +206,7 @@
 
             "childs": [
                 {
-                    "name": "Left_Eyes",
+                    "name": "Left-Eyes",
                     "vertices": [
                         60, 30, 60,
                         60, 50, 60,
@@ -305,12 +293,6 @@
                         255, 255, 0,
                         255, 255, 0
                     ],
-                    "joint":[
-                        0, 0, 0, 0,
-                        0, 0, 0, 0, 
-                        0, 0, 0, 0,
-                        0, 0, 0, 0
-                    ],
 
                     "translation" : [0, 0, 0],
                     "rotation" : [0, 0, 0],
@@ -328,7 +310,7 @@
                 },
 
                 {
-                    "name": "Right_Eyes",
+                    "name": "Right-Eyes",
                     "vertices": [
                         20, 30, 60,
                         20, 50, 60,
@@ -419,12 +401,6 @@
                     "translation" : [0, 0, 0],
                     "rotation" : [0, 0, 0],
                     "scale" : [1, 1, 1],
-                    "joint":[
-                        0, 0, 0, 0,
-                        0, 0, 0, 0, 
-                        0, 0, 0, 0,
-                        0, 0, 0, 0
-                    ],
 
                     "ch_translation": [0, 0, 0],
                     "ch_rotation": [0, 0, 0],
@@ -529,12 +505,6 @@
                     "translation" : [0, 0, 0],
                     "rotation" : [0, 0, 0],
                     "scale" : [1, 1, 1],
-                    "joint":[
-                        0, 0, 0, 0,
-                        0, 0, 0, 0, 
-                        0, 0, 0, 0,
-                        0, 0, 0, 0
-                    ],
 
                     "ch_translation": [0, 0, 0],
                     "ch_rotation": [0, 0, 0],
@@ -550,7 +520,7 @@
         },
 
         {
-            "name": "Left_Arm",
+            "name": "Left-Arm",
             "vertices": [
                 140, 0, 50,
                 140, -200, 50,
@@ -641,12 +611,6 @@
             "translation" : [0, 0, 0],
             "rotation" : [0, 0, 0],
             "scale" : [1, 1, 1],
-            "joint":[
-                0, 0, 0, 0,
-                0, 0, 0, 0, 
-                0, 0, 0, 0,
-                0, 0, 0, 0
-            ],
 
             "ch_translation": [0, 0, 0],
             "ch_rotation": [0, 0, 0],
@@ -660,7 +624,7 @@
         }, 
 
         {
-            "name": "Right_Arm",
+            "name": "Right-Arm",
             "vertices": [
                 0, 0, 50,
                 0, -200, 50,
@@ -751,12 +715,6 @@
             "translation" : [0, 0, 0],
             "rotation" : [0, 0, 0],
             "scale" : [1, 1, 1],
-            "joint":[
-                0, 0, 0, 0,
-                0, 0, 0, 0, 
-                0, 0, 0, 0,
-                0, 0, 0, 0
-            ],
 
             "ch_translation": [0, 0, 0],
             "ch_rotation": [0, 0, 0],
@@ -770,7 +728,7 @@
         },
 
         {
-            "name": "Left_Leg",
+            "name": "Left-Leg",
             "vertices": [
                 100, 0,-50,
                 100, -200,-50,
@@ -861,12 +819,6 @@
             "translation" : [0, 0, 0],
             "rotation" : [0, 0, 0],
             "scale" : [1, 1, 1],
-            "joint":[
-                0, 0, 0, 0,
-                0, 0, 0, 0, 
-                0, 0, 0, 0,
-                0, 0, 0, 0
-            ],
 
             "ch_translation": [0, 0, 0],
             "ch_rotation": [0, 0, 0],
@@ -880,7 +832,7 @@
         },
 
         {
-            "name": "Right_Leg",
+            "name": "Right-Leg",
             "vertices": [
                 -70, 0,-50,
                 -70, -200,-50,
@@ -971,12 +923,6 @@
             "translation" : [0, 0, 0],
             "rotation" : [0, 0, 0],
             "scale" : [1, 1, 1],
-            "joint":[
-                0, 0, 0, 0,
-                0, 0, 0, 0, 
-                0, 0, 0, 0,
-                0, 0, 0, 0
-            ],
 
             "ch_translation": [0, 0, 0],
             "ch_rotation": [0, 0, 0],
