@@ -40,7 +40,7 @@ loadModels = () => {
                 for (let j = 0; j < inputModelFrame.length; j++) {
                     let inputModel = inputModelFrame[j]; // Model
 
-                    let model = new Model(models.length, inputModel.name, inputModel.vertices, inputModel.colors, inputModel.childs);
+                    let model = new Model(models.length, inputModel.name, inputModel.vertices, inputModel.colors, inputModel.joint, inputModel.childs);
                     updateBuffers(model, i);
                     // Check if models have enough frames else add empty frames
                     if (selectFrame.length-1 < i) {

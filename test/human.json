@@ -95,6 +95,12 @@
         "ch_translation": [0, 0, 0],
         "ch_rotation": [0, 0, 0],
         "ch_scale": [1, 1, 1],
+        "joint":[
+            0, 0, 0, 0,
+            0, 0, 0, 0, 
+            0, 0, 0, 0,
+            0, 0, 0, 0
+        ],
 
         "childs": [
             {
@@ -193,6 +199,12 @@
                 "ch_translation": [0, 0, 0],
                 "ch_rotation": [0, 0, 0],
                 "ch_scale": [1, 1, 1],
+                "joint":[
+                    0, 0, 0, 0,
+                    0, 0, 0, 0, 
+                    0, 0, 0, 0,
+                    0, 0, 0, 0
+                ],
                 "childs": [
                         {
                             "name": "EarLeft",
@@ -289,7 +301,13 @@
                 
                             "ch_translation": [0, 0, 0],
                             "ch_rotation": [0, 0, 0],
-                            "ch_scale": [1, 1, 1]
+                            "ch_scale": [1, 1, 1],
+                            "joint":[
+                                0, 0, 0, 0,
+                                0, 0, 0, 0, 
+                                0, 0, 0, 0,
+                                0, 0, 0, 0
+                            ]
                         },
                         {
                             "name": "EarRight",
@@ -386,7 +404,13 @@
                 
                             "ch_translation": [0, 0, 0],
                             "ch_rotation": [0, 0, 0],
-                            "ch_scale": [1, 1, 1]
+                            "ch_scale": [1, 1, 1],
+                            "joint":[
+                                0, 0, 0, 0,
+                                0, 0, 0, 0, 
+                                0, 0, 0, 0,
+                                0, 0, 0, 0
+                            ]
                         }
                     ]
                 }
@@ -489,6 +513,12 @@
         "ch_translation": [0, 0, 0],
         "ch_rotation": [0, 0, 0],
         "ch_scale": [1, 1, 1],
+        "joint":[
+            0, 0, 0, 0,
+            0, 0, 0, 0, 
+            0, 0, 0, 0,
+            0, 0, 0, 0
+        ],
 
         "childs": [
             {
@@ -587,6 +617,12 @@
                 "ch_translation": [0, 0, 0],
                 "ch_rotation": [0, 0, 0],
                 "ch_scale": [1, 1, 1],
+                "joint":[
+                    0, 0, 0, 0,
+                    0, 0, 0, 0, 
+                    0, 0, 0, 0,
+                    0, 0, 0, 0
+                ],
                 "childs": [
                         {
                             "name": "EarLeft",
@@ -683,7 +719,13 @@
                 
                             "ch_translation": [0, 0, 0],
                             "ch_rotation": [0, 0, 0],
-                            "ch_scale": [1, 1, 1]
+                            "ch_scale": [1, 1, 1],
+                            "joint":[
+                                0, 0, 0, 0,
+                                0, 0, 0, 0, 
+                                0, 0, 0, 0,
+                                0, 0, 0, 0
+                            ]
                         },
                         {
                             "name": "EarRight",
@@ -780,7 +822,13 @@
                 
                             "ch_translation": [0, 0, 0],
                             "ch_rotation": [0, 0, 0],
-                            "ch_scale": [1, 1, 1]
+                            "ch_scale": [1, 1, 1],
+                            "joint":[
+                                0, 0, 0, 0,
+                                0, 0, 0, 0, 
+                                0, 0, 0, 0,
+                                0, 0, 0, 0
+                            ]
                         }
                     ]
                 }
