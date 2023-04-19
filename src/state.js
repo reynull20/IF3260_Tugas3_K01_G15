@@ -54,7 +54,7 @@ sliderOblTheta.addEventListener("input", changeOblTheta)
 const sliderOblPhi = document.querySelector("#phi")
 sliderOblPhi.addEventListener("input", changeOblPhi)
 
-var models = [];
+var models = [[]];
 var selectedModel = null;
 var selectedComponentId = null;
 var cameraYAngle = degToRad(0);
@@ -64,6 +64,7 @@ var radiusCamera = 400;
 var lightBase = [0, 0, 1];
 var light = [0, 0, 1];
 var shading = true;
+var frame = 0;
 
 selectModel.addEventListener("input", function (event) {
     selectedModel = models[parseInt(event.target.value)];

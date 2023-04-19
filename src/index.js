@@ -353,9 +353,9 @@ var positionAttrLoc = gl.getAttribLocation(program, "a_position")
 var colorLoc = gl.getAttribLocation(program,"a_color");
 var normalLoc = gl.getAttribLocation(program,"a_normal");
 
-var positionBuffers = [];
-var colorBuffers = [];
-var normalBuffers = [];
+var positionBuffers = [[]];
+var colorBuffers = [[]];
+var normalBuffers = [[]];
 // ============================= End of Initialization =============================
 
 // ============================= Rendering Code ============================
@@ -419,22 +419,28 @@ function createProgram(gl, vertexShader, fragmentShader) {
     gl.deleteProgram(program)   
 }
 
-function updateBuffers(model) {
+function updateBuffers(model, localFrame) {
+    // Check if there is enough frame, frame starts from 0
+    if (localFrame > positionBuffers.length-1) {
+        positionBuffers.push([]);
+        colorBuffers.push([]);
+        normalBuffers.push([]);
+    }
     var positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     setGeometry(gl, model.vertices);
-    positionBuffers.push(positionBuffer);
+    positionBuffers[localFrame].push(positionBuffer);
     var colorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
     setColors(gl, model.colors);
-    colorBuffers.push(colorBuffer);
+    colorBuffers[localFrame].push(colorBuffer);
     var normalBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
     setNormals(gl, model.normals);
-    normalBuffers.push(normalBuffer);
+    normalBuffers[localFrame].push(normalBuffer);
 
     for (let i = 0; i < model.childs.length; i++) {
-        updateBuffers(model.childs[i]);
+        updateBuffers(model.childs[i], localFrame);
     }
 }
 
@@ -489,15 +495,15 @@ function drawScene() {
     gl.uniform1f(lightLocation, shading? 1.0: 0.0);    
     
     var idx = 0;
-    for(let i = 0; i < models.length; i++) {
-        let model = models[i];
+    for(let i = 0; i < models[frame].length; i++) {
+        let model = models[frame][i];
 
         traverse = model.traverseAsArray();
 
         for (let j = 0; j < traverse.length; j++) {
             let model = traverse[j];
             gl.enableVertexAttribArray(positionAttrLoc)
-            gl.bindBuffer(gl.ARRAY_BUFFER,positionBuffers[idx])
+            gl.bindBuffer(gl.ARRAY_BUFFER,positionBuffers[frame][idx])
 
             var size = 3            // 2 component per iteration
             var type = gl.FLOAT     // the data is 32-bit float
@@ -510,7 +516,7 @@ function drawScene() {
 
             // Color 
             gl.enableVertexAttribArray(colorLoc)
-            gl.bindBuffer(gl.ARRAY_BUFFER,colorBuffers[idx])
+            gl.bindBuffer(gl.ARRAY_BUFFER,colorBuffers[frame][idx])
         
             var size = 3;                 // 3 components per iteration
             var type = gl.UNSIGNED_BYTE;  // the data is 8bit unsigned values
@@ -522,7 +528,7 @@ function drawScene() {
                 
             // Normal
             gl.enableVertexAttribArray(normalLoc)
-            gl.bindBuffer(gl.ARRAY_BUFFER,normalBuffers[idx])
+            gl.bindBuffer(gl.ARRAY_BUFFER,normalBuffers[frame][idx])
             
             var size = 3;                 // 3 components per iteration
             var type = gl.FLOAT;          // the data is 32bit floats

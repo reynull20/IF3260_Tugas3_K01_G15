@@ -36,16 +36,25 @@ loadModels = () => {
             let content = readerEvent.target.result;
             inputModels = JSON.parse(content);
             for (let i = 0; i < inputModels.length; i++) {
-                let inputModel = inputModels[i];
-                let model = new Model(models.length, inputModel.name, inputModel.vertices, inputModel.colors, inputModel.childs);
-                updateBuffers(model);
-                models.push(model);
+                let inputModelFrame = inputModels[i]; // Frame
+                for (let j = 0; j < inputModelFrame.length; j++) {
+                    let inputModel = inputModelFrame[j]; // Model
+
+                    let model = new Model(models.length, inputModel.name, inputModel.vertices, inputModel.colors, inputModel.childs);
+                    updateBuffers(model, i);
+                    // Check if models have enough frames else add empty frames
+                    if (models.length-1 < i) {
+                        models.push([]);
+                    }
+                    models[i].push(model);
+
+                }
             }
             selectModel.innerHTML = "";
-            for(let i=0; i< models.length; i++) {
+            for(let i=0; i< models[frame].length; i++) {
                 selectModel.appendChild(new Option("Model " + (i), i));
             }
-            selectedModel = models[0];
+            selectedModel = models[frame][0];
             selectedComponent = selectedModel;
             setupSelectedModel();
             drawScene();
