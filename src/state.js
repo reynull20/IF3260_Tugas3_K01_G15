@@ -20,6 +20,13 @@ sliderScalingY.addEventListener("input", sliderScaleY)
 const sliderScalingZ = document.querySelector("#scale-z")
 sliderScalingZ.addEventListener("input", sliderScaleZ)
 
+const jointSliderRotationX = document.querySelector("#joint-rotation-x")
+jointSliderRotationX.addEventListener("input",jointSliderRotateX)
+const jointSliderRotationY = document.querySelector("#joint-rotation-y")
+jointSliderRotationY.addEventListener("input",jointSliderRotateY)
+const jointSliderRotationZ = document.querySelector("#joint-rotation-z")
+jointSliderRotationZ.addEventListener("input",jointSliderRotateZ)
+
 const artSliderTranslationX = document.querySelector("#art-translation-x")
 artSliderTranslationX.addEventListener("input", artSliderTransX)
 const artSliderTranslationY = document.querySelector("#art-translation-y")

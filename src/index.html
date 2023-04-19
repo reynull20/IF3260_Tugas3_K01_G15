@@ -210,6 +210,20 @@
                 <input type="range" name="scale-z" id="scale-z" value="1" min="0" max="3" oninput="scaleValZ.value=this.value" step="0.01">
                 <output id="scaleValZ" name="scaleValZ" for="scale-z">1.00</output>
             </div>
+            <h3>Joint Rotation</h3>
+            <div class="input-range">
+                <label for="joint-rotation">Joint Rotation X axis</label>
+                <input type="range" name="joint-rotation-x" id="joint-rotation-x" value="0" min="0" max="360" oninput="jointRotationXValue.value=this.value">
+                <output id="jointRotationXValue" name="jointRotationXValue" for="joint-rotation-x">0</output>
+                <br>
+                <label for="joint-rotation">Joint Rotation Y Axis</label>
+                <input type="range" name="joint-rotation-y" id="joint-rotation-y" value="0" min="0" max="360" oninput="jointRotationYValue.value=this.value">
+                <output id="jointRotationYValue" name="jointRotationYValue" for="joint-rotation-y">0</output>
+                <br>
+                <label for="joint-rotation">Joint Rotation Z Axis</label>
+                <input type="range" name="joint-rotation-z" id="joint-rotation-z" value="0" min="0" max="360" oninput="jointRotationZValue.value=this.value">
+                <output id="jointRotationZValue" name="jointRotationZValue" for="joint-rotation-z">0</output>
+            </div>
             <h3>Articulated Translation</h3>
             <div class="input-range">
                 <label for="art-translation-x">X</label>
