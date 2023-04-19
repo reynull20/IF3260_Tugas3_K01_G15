@@ -94,6 +94,14 @@ setupSelectedComponent = (model) => {
     document.getElementById("scaleValY").value = sliderScalingY.value;
     sliderScalingZ.value = model.scale[2];
     document.getElementById("scaleValZ").value = sliderScalingZ.value;
+    // Joint
+    jointSliderRotationX.value = model.joint_rotation[0];
+    document.getElementById("joint-rotation-x").value = jointSliderRotationX.value;
+    jointSliderRotationY.value = model.joint_rotation[1];
+    document.getElementById("joint-rotation-x").value = jointSliderRotationY.value;
+    jointSliderRotationZ.value = model.joint_rotation[2];
+    document.getElementById("joint-rotation-x").value = jointSliderRotationZ.value;
+    // End of Joint
     artSliderTranslationX.value = model.ch_translation[0];
     document.getElementById("artTransXValue").value = artSliderTranslationX.value;
     artSliderTranslationY.value = model.ch_translation[1];
@@ -183,6 +191,24 @@ function artSliderTransY(event) {
 
 function artSliderTransZ(event) {
     selectedComponent.ch_translation[2] = parseFloat(event.target.value)
+    selectedComponent.updateMatrix()
+    drawScene()
+}
+
+function jointSliderRotateX(e) {
+    selectedComponent.joint_rotation[0] = parseFloat(e.target.value) * Math.PI / 180
+    selectedComponent.updateMatrix()
+    drawScene()
+}
+
+function jointSliderRotateY(e) {
+    selectedComponent.joint_rotation[1] = parseFloat(e.target.value) * Math.PI / 180
+    selectedComponent.updateMatrix()
+    drawScene()
+}
+
+function jointSliderRotateZ(e) {
+    selectedComponent.joint_rotation[2] = parseFloat(e.target.value) * Math.PI / 180
     selectedComponent.updateMatrix()
     drawScene()
 }
