@@ -1,29 +1,29 @@
 class Model {
-    constructor(id = -1, name = "Undefined", vertices = [], colors = [], joints = [], childs = [], parentMatrix = m4.identity()) {
+    constructor(id = -1, name = "Undefined", vertices = [], colors = [], joints = [], translation = [0,0,0], rotation = [0,0,0], scale = [0,0,0], ch_translation = [0,0,0], ch_rotation = [0,0,0], ch_scale = [0,0,0],childs = [], parentMatrix = m4.identity()) {
         this.id = id;
+        this.name = name;
         this.vertices = vertices;
         this.colors = colors;
-        this.calculateNormals();
-        this.translation = [0, 0, 0];
-        this.rotation = [0, 0, 0];
-        this.scale = [1, 1, 1];
+        this.translation = translation;
+        this.rotation = rotation;
+        this.scale = scale;
         this.joints = joints;
         this.joint_rotation = [0,0,0];
-        this.setupCenter();
-        this.setupChilds(childs);
+        this.ch_translation = ch_translation;
+        this.ch_rotation = ch_rotation;
+        this.ch_scale = ch_scale;
         this.parentMatrix = parentMatrix;
-        this.ch_translation = [0, 0, 0];
-        this.ch_rotation = [0, 0, 0];
-        this.ch_scale = [1, 1, 1];
-        this.matrix_child = this.modelMatrixChild();
+        this.setupCenter();
+        this.calculateNormals();
+        this.matrix_child = this.modelMatrixChild(this.parentMatrix);
         this.matrix = this.modelMatrix();
-        this.name = name;
+        this.setupChilds(childs);
     }
 
     setupChilds = (childs) => {
         this.childs = [];
         for (let i = 0; i < childs.length; i++) {
-            this.childs.push(new Model(childs[i].id, childs[i].name, childs[i].vertices, childs[i].colors, childs[i].joint, childs[i].childs, this.matrix_child));
+            this.childs.push(new Model(childs[i].id, childs[i].name, childs[i].vertices, childs[i].colors, childs[i].joint, childs[i].translation, childs[i].rotation, childs[i].scale, childs[i].ch_translation, childs[i].ch_rotation, childs[i].ch_scale ,childs[i].childs, this.matrix_child));
         }
     }
     
