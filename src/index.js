@@ -676,7 +676,7 @@ function loadTextureImage(gl) {
         // Check if the image is a power of 2 in both dimensions.
         if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
             // Yes, it's a power of 2. Generate mips.
-            // console.log("power of 2");
+            console.log("power of 2");
             gl.generateMipmap(gl.TEXTURE_2D);
         } else {
             // No, it's not a power of 2. Turn of mips and set wrapping to clamp to edge
@@ -687,7 +687,8 @@ function loadTextureImage(gl) {
         }
     });
     image.crossOrigin = "";
-    image.src = "https://i.imgur.com/XArLydn.jpeg";
+    // image.src = "https://i.imgur.com/XArLydn.jpeg";
+    image.src = "https://webglfundamentals.org/webgl/resources/leaves.jpg";
 
     return texture;
 }

@@ -42,7 +42,7 @@ loadModels = () => {
                 }
                 for (let j = 0; j < inputModelFrame.length; j++) {
                     let inputModel = inputModelFrame[j]; // Model
-                    let model = new Model(models.length, inputModel.name, inputModel.vertices, inputModel.colors, inputModel.joint, inputModel.translation, inputModel.rotation, inputModel.scale, inputModel.ch_translation, inputModel.ch_rotation, inputModel.ch_scale, inputModel.animation, inputModel.childs);
+                    let model = new Model(models.length, inputModel.name, inputModel.vertices, inputModel.colors, inputModel.joint, inputModel.translation, inputModel.rotation, inputModel.scale, inputModel.ch_translation, inputModel.ch_rotation, inputModel.ch_scale, inputModel.animation, inputModel.childs, m4.identity(), inputModel.textureMode);
                     updateBuffers(model, i);
                     // Check if models have enough frames else add empty frames
                     if (models.length-1 < i) {
@@ -143,6 +143,8 @@ setupSelectedComponent = (model) => {
     document.getElementById("artScaleValY").value = artSliderScalingY.value;
     artSliderScalingZ.value = model.ch_scale[2];
     document.getElementById("artScaleValZ").value = artSliderScalingZ.value;
+    // texture
+    selectTexture.value = model.textureMode;
 }
 
 setupComponentButtons = (model, depth) => {

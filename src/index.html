@@ -114,10 +114,10 @@
             <button class="btn-rst" onclick="resetView()">Reset View</button>
             <h3>Texture</h3>
             <select id="select-texture">
-                <option value="0">None</option>
-                <option value="1">Custom/Image</option>
-                <option value="2">Reflective</option>
-                <option value="3">Bump</option>
+                <option value="-1">None</option>
+                <option value="0">Custom/Image</option>
+                <option value="1">Reflective</option>
+                <option value="2">Bump</option>
             </select>            
             <h3>Projection Mode</h3>
             <div class="switch-toggle switch-3 switch-candy">
@@ -362,10 +362,10 @@
         void main() {
             gl_FragColor = v_color;
 
+            vec3 worldNormal = normalize(v_worldNormal);
             if(u_textureMode == 0) { //Custom/Image
                 gl_FragColor = texture2D(u_textureImage, v_textureCoord);
             } else if(u_textureMode == 1) { //Reflective
-                vec3 worldNormal = normalize(v_worldNormal);
                 vec3 eyeToSurfaceDir = normalize(v_worldPosition - u_worldCameraPosition);
                 vec3 direction = reflect(eyeToSurfaceDir,worldNormal);
                 gl_FragColor = textureCube(u_textureEnvironment, direction);
@@ -375,7 +375,7 @@
 
             vec3 normal = normalize(v_normal);
             if (u_light > 0.0) {
-                float light = dot(normal, u_reverseLightDirection);
+                float light = dot(worldNormal, u_reverseLightDirection);
                 gl_FragColor.rgb *= light;
             }
         }

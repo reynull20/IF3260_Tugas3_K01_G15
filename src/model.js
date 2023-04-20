@@ -1,5 +1,8 @@
 class Model {
-    constructor(id = -1, name = "Undefined", vertices = [], colors = [], joints = [], translation = [0,0,0], rotation = [0,0,0], scale = [0,0,0], ch_translation = [0,0,0], ch_rotation = [0,0,0], ch_scale = [0,0,0], animation = [], childs = [], parentMatrix = m4.identity()) {
+    constructor(id = -1, name = "Undefined", vertices = [], colors = [], joints = [], translation = [0,0,0], rotation = [0,0,0], scale = [0,0,0], ch_translation = [0,0,0], ch_rotation = [0,0,0], ch_scale = [0,0,0], animation = [], childs = [], parentMatrix = m4.identity(), textureMode = -1) {
+        if(textureMode == null) {
+            textureMode = -1;
+        }
         this.id = id;
         this.name = name;
         this.vertices = vertices;
@@ -21,14 +24,14 @@ class Model {
         this.setupChilds(childs);
         this.currentAnimIndex = 0;
         this.setupTextureCoord(); // TODO: cek udah sesuai sama model ga
-        this.textureMode = 1;  // placeholder
+        this.textureMode = textureMode;
         // TODO: this.getAllVectors(); // terutama untuk bump.        
     }
 
     setupChilds = (childs) => {
         this.childs = [];
         for (let i = 0; i < childs.length; i++) {
-            this.childs.push(new Model(childs[i].id, childs[i].name, childs[i].vertices, childs[i].colors, childs[i].joint, childs[i].translation, childs[i].rotation, childs[i].scale, childs[i].ch_translation, childs[i].ch_rotation, childs[i].ch_scale, childs[i].animation, childs[i].childs, this.matrix_child));
+            this.childs.push(new Model(childs[i].id, childs[i].name, childs[i].vertices, childs[i].colors, childs[i].joint, childs[i].translation, childs[i].rotation, childs[i].scale, childs[i].ch_translation, childs[i].ch_rotation, childs[i].ch_scale, childs[i].animation, childs[i].childs, this.matrix_child, childs[i].textureMode));
         }
     }
     
@@ -269,15 +272,23 @@ class Model {
 
     setupTextureCoord = () => {
         let textureCoord = [];
-        for (let i = 0; i < this.vertices.length; i+=6) {
+        for (let i = 0; i < this.vertices.length; i+=18) {
             textureCoord = textureCoord.concat([
                 0, 0,
                 0, 1,
+                1, 0,
+                0, 1,
                 1, 1,
                 1, 0,
-                0, 0,
-                1, 1,
             ]);
+            // textureCoord = textureCoord.concat([
+            //     0, 0,
+            //     0, 1,
+            //     1, 1,
+            //     0, 0,
+            //     1, 1,
+            //     1, 0,
+            // ]);
         }
         this.textureCoord = textureCoord;
     }    
@@ -288,6 +299,7 @@ class Model {
             "vertices": this.vertices,
             "colors": this.colors,
             "joint": this.joints,
+            "textureMode": this.textureMode,
             "translation": this.translation,
             "rotation": this.rotation,
             "scale": this.scale,
