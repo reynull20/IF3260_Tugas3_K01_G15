@@ -345,17 +345,30 @@ var fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource)
 var program = createProgram(gl, vertexShader, fragmentShader)
 
 // Bind matrix 
-var worldViewProjectionLoc = gl.getUniformLocation(program, "u_worldViewProjection")
+var worldLoc = gl.getUniformLocation(program, "u_worldMatrix")
+var viewLoc = gl.getUniformLocation(program, "u_viewMatrix")
+var projectionLoc = gl.getUniformLocation(program, "u_projectionMatrix")
 var worldInverseTransposeLoc = gl.getUniformLocation(program, "u_worldInverseTranspose")
 var reverseLightDirectionLocation = gl.getUniformLocation(program, "u_reverseLightDirection")
 var lightLocation = gl.getUniformLocation(program, "u_light")
 var positionAttrLoc = gl.getAttribLocation(program, "a_position")
 var colorLoc = gl.getAttribLocation(program,"a_color");
 var normalLoc = gl.getAttribLocation(program,"a_normal");
+var textureCoordLoc = gl.getAttribLocation(program, "a_textureCoord");
+var textureModeLoc = gl.getUniformLocation(program, "u_textureMode");
+var textureImageLoc = gl.getUniformLocation(program, "u_textureImage");
+var textureEnvironmentLoc = gl.getUniformLocation(program, "u_textureEnvironment");
+var textureBumpLoc = gl.getUniformLocation(program, "u_textureBump");
+var cameraPositionLoc = gl.getUniformLocation(program, "u_worldCameraPosition");
 
 var positionBuffers = [[]];
 var colorBuffers = [[]];
 var normalBuffers = [[]];
+var textureCoordBuffers = [[]];
+
+// Load All Textures
+var textureImageBuffer = loadTextureImage(gl);
+var textureEnvironmentBuffer = loadTextureEnvironment(gl);
 // ============================= End of Initialization =============================
 
 // ============================= Rendering Code ============================
@@ -425,6 +438,7 @@ function updateBuffers(model, localFrame) {
         positionBuffers.push([]);
         colorBuffers.push([]);
         normalBuffers.push([]);
+        textureCoordBuffers.push([]);
     }
     var positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
@@ -438,6 +452,11 @@ function updateBuffers(model, localFrame) {
     gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
     setNormals(gl, model.normals);
     normalBuffers[localFrame].push(normalBuffer);
+    // TODO: bind texture cek udh bener ga
+    var textureCoordBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, textureCoordBuffer);
+    setTextureCoords(gl, model.textureCoords);
+    textureCoordBuffers[localFrame].push(textureCoordBuffer);    
 
     for (let i = 0; i < model.childs.length; i++) {
         updateBuffers(model.childs[i], localFrame);
@@ -478,6 +497,7 @@ function drawScene() {
             console.log("Something Went Wrong went choosing Projection");
             break;
     }
+    var projectionMatrix = matrix;    
     
     // Compute Camera Matrix
     var cameraMatrix = m4.xRotation(cameraXAngle);
@@ -492,7 +512,17 @@ function drawScene() {
     var viewProjectionMatrix = m4.multiply(matrix, viewMatrix)
 
     gl.uniform3fv(reverseLightDirectionLocation, light);
-    gl.uniform1f(lightLocation, shading? 1.0: 0.0);    
+    gl.uniform1f(lightLocation, shading? 1.0: 0.0); 
+    gl.uniformMatrix4fv(viewLoc, false, viewMatrix);
+    gl.uniformMatrix4fv(projectionLoc, false, projectionMatrix);
+    
+    gl.uniform3fv(cameraPositionLoc, cameraPosition);
+    gl.uniform1i(textureImageLoc, 0);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, textureImageBuffer);
+    gl.uniform1i(textureEnvironmentLoc, 1);
+    gl.activeTexture(gl.TEXTURE1);
+    gl.bindTexture(gl.TEXTURE_CUBE_MAP, textureEnvironmentBuffer);       
     
     var idx = 0;
     for(let i = 0; i < models[frame].length; i++) {
@@ -502,6 +532,8 @@ function drawScene() {
 
         for (let j = 0; j < traverse.length; j++) {
             let model = traverse[j];
+            console.log("Texture mode: "+model.textureMode);
+            gl.uniform1i(textureModeLoc, Number(model.textureMode));            
             gl.enableVertexAttribArray(positionAttrLoc)
             gl.bindBuffer(gl.ARRAY_BUFFER,positionBuffers[frame][idx])
 
@@ -528,7 +560,7 @@ function drawScene() {
                 
             // Normal
             gl.enableVertexAttribArray(normalLoc)
-            gl.bindBuffer(gl.ARRAY_BUFFER,normalBuffers[frame][idx])
+            gl.bindBuffer(gl.ARRAY_BUFFER,normalBuffers[frame][idx])        
             
             var size = 3;                 // 3 components per iteration
             var type = gl.FLOAT;          // the data is 32bit floats
@@ -538,6 +570,18 @@ function drawScene() {
             gl.vertexAttribPointer(
                 normalLoc, size, type, normalize, stride, offset);
 
+            // Texture
+            gl.enableVertexAttribArray(textureCoordLoc);
+            gl.bindBuffer(gl.ARRAY_BUFFER, textureCoordBuffers[frame][idx]);
+
+            var size = 2;          // 2 components per iteration
+            var type = gl.FLOAT;   // the data is 32bit floats
+            var normalize = false; // don't normalize the data
+            var stride = 0;        // 0 = move forward size * sizeof(type) each iteration to get the next position
+            var offset = 0;        // start at the beginning of the buffer
+            gl.vertexAttribPointer(
+              textureCoordLoc, size, type, normalize, stride, offset);                         
+
             var worldMatrix = model.matrix;
 
             var worldViewProjectionMatrix = m4.multiply(viewProjectionMatrix, worldMatrix);
@@ -545,7 +589,7 @@ function drawScene() {
             var worldInverseTransposeMatrix = m4.transpose(worldInverseMatrix);
 
             // Bind the matrix
-            gl.uniformMatrix4fv(worldViewProjectionLoc,false,worldViewProjectionMatrix);
+            gl.uniformMatrix4fv(worldLoc, false, worldMatrix);
             gl.uniformMatrix4fv(worldInverseTransposeLoc,false,worldInverseTransposeMatrix);
 
             // Draw rectangle
@@ -591,4 +635,115 @@ function setNormals(gl, normals) {
 function changeFOV(e) {
     fieldOfView = degToRad(parseInt(e.target.value))
     drawScene()
+}
+
+function setTextureCoords(gl, textureCoord) {
+    gl.bufferData(
+        gl.ARRAY_BUFFER,
+        new Float32Array(textureCoord),
+        gl.STATIC_DRAW);
+}
+
+function loadTextureImage(gl) {
+    var texture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+
+    // Fill the texture with a 1x1 blue pixel.
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+                new Uint8Array([0, 0, 255, 255]));
+
+    // Asynchronously load an image
+    var image = new Image();
+    image.addEventListener('load', function() {
+        // Now that the image has loaded make copy it to the texture.
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+        // Check if the image is a power of 2 in both dimensions.
+        if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
+            // Yes, it's a power of 2. Generate mips.
+            // console.log("power of 2");
+            gl.generateMipmap(gl.TEXTURE_2D);
+        } else {
+            // No, it's not a power of 2. Turn of mips and set wrapping to clamp to edge
+            // console.log("not power of 2");
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        }
+    });
+    image.crossOrigin = "";
+    image.src = "https://i.imgur.com/XArLydn.jpeg";
+
+    return texture;
+}
+
+function requestCORSIfNotSameOrigin(img, url) {
+    if ((new URL(url, window.location.href)).origin !== window.location.origin) {
+      img.crossOrigin = "";
+    }
+  }
+
+function loadTextureEnvironment(gl) {
+    var texture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_CUBE_MAP, texture);
+
+    const faceInfos = [
+        {
+            target: gl.TEXTURE_CUBE_MAP_POSITIVE_X,
+            url: 'https://webglfundamentals.org/webgl/resources/images/computer-history-museum/pos-x.jpg',
+        },
+        {
+            target: gl.TEXTURE_CUBE_MAP_NEGATIVE_X,
+            url: 'https://webglfundamentals.org/webgl/resources/images/computer-history-museum/neg-x.jpg',
+        },
+        {
+            target: gl.TEXTURE_CUBE_MAP_POSITIVE_Y,
+            url: 'https://webglfundamentals.org/webgl/resources/images/computer-history-museum/pos-y.jpg',
+        },
+        {
+            target: gl.TEXTURE_CUBE_MAP_NEGATIVE_Y,
+            url: 'https://webglfundamentals.org/webgl/resources/images/computer-history-museum/neg-y.jpg',
+        },
+        {
+            target: gl.TEXTURE_CUBE_MAP_POSITIVE_Z,
+            url: 'https://webglfundamentals.org/webgl/resources/images/computer-history-museum/pos-z.jpg',
+        },
+        {
+            target: gl.TEXTURE_CUBE_MAP_NEGATIVE_Z,
+            url: 'https://webglfundamentals.org/webgl/resources/images/computer-history-museum/neg-z.jpg',
+        }
+    ];
+    faceInfos.forEach((faceInfo) => {
+        const {target, url} = faceInfo;
+
+        // Upload the canvas to the cubemap face.
+        const level = 0;
+        const internalFormat = gl.RGBA;
+        const width = 512;
+        const height = 512;
+        const format = gl.RGBA;
+        const type = gl.UNSIGNED_BYTE;
+
+        // setup each face so it's immediately renderable
+        gl.texImage2D(target, level, internalFormat, width, height, 0, format, type, null);
+
+        // Asynchronously load an image
+        const image = new Image();
+        image.crossOrigin = "";
+        image.src = url;
+        image.addEventListener('load', function() {
+            // Now that the image has loaded make copy it to the texture.
+            gl.bindTexture(gl.TEXTURE_CUBE_MAP, texture);
+            gl.texImage2D(target, level, internalFormat, format, type, image);
+            gl.generateMipmap(gl.TEXTURE_CUBE_MAP);
+        });
+    });
+    gl.generateMipmap(gl.TEXTURE_CUBE_MAP);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+
+    return texture;
+}
+
+function isPowerOf2(value) {
+    return (value & (value - 1)) === 0;
 }

@@ -18,6 +18,9 @@ class Model {
         this.matrix_child = this.modelMatrixChild(this.parentMatrix);
         this.matrix = this.modelMatrix();
         this.setupChilds(childs);
+        this.setupTextureCoord(); // TODO: cek udah sesuai sama model ga
+        this.textureMode = 1;  // placeholder
+        // TODO: this.getAllVectors(); // terutama untuk bump.        
     }
 
     setupChilds = (childs) => {
@@ -192,6 +195,21 @@ class Model {
         }
         this.normals = normals;
     }
+
+    setupTextureCoord = () => {
+        let textureCoord = [];
+        for (let i = 0; i < this.vertices.length; i+=6) {
+            textureCoord = textureCoord.concat([
+                0, 0,
+                0, 1,
+                1, 1,
+                1, 0,
+                0, 0,
+                1, 1,
+            ]);
+        }
+        this.textureCoord = textureCoord;
+    }    
 
     saveRecursively = () => {
         let data = {

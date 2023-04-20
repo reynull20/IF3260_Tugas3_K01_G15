@@ -112,6 +112,13 @@
             <select id="select-frame"></select>
             <select id="select-model"></select>
             <button class="btn-rst" onclick="resetView()">Reset View</button>
+            <h3>Texture</h3>
+            <select id="select-texture">
+                <option value="0">None</option>
+                <option value="1">Custom/Image</option>
+                <option value="2">Reflective</option>
+                <option value="3">Bump</option>
+            </select>            
             <h3>Projection Mode</h3>
             <div class="switch-toggle switch-3 switch-candy">
                 <input id="Orthographic" name="state-d" type="radio" checked />
@@ -305,18 +312,30 @@
         attribute vec4 a_position;
         attribute vec4 a_color;
         attribute vec3 a_normal;
+        attribute vec2 a_textureCoord;
 
-        uniform mat4 u_worldViewProjection;
+        uniform mat4 u_worldMatrix;
+        uniform mat4 u_viewMatrix;
+        uniform mat4 u_projectionMatrix;
         uniform mat4 u_worldInverseTranspose;
 
         varying vec4 v_color;
         varying vec3 v_normal;
+        varying vec2 v_textureCoord;
+        varying vec3 v_worldNormal;
+        varying vec3 v_worldPosition;
 
         void main() {
-            gl_Position = u_worldViewProjection * a_position;
+            gl_Position = u_projectionMatrix * u_viewMatrix * u_worldMatrix * a_position;
 
             v_color = a_color;
+            v_textureCoord = a_textureCoord;
 
+            // send the view position to the fragment shader
+            v_worldPosition = vec3(u_worldMatrix * a_position);
+          
+            // orient the normals and pass to the fragment shader
+            v_worldNormal = mat3(u_worldMatrix) * a_normal;
             v_normal = mat3(u_worldInverseTranspose) * a_normal;
         }
     </script>
@@ -328,9 +347,31 @@
 
         uniform vec3 u_reverseLightDirection;
         uniform float u_light;
+
+        uniform int u_textureMode;
+        varying vec2 v_textureCoord;
+        varying vec3 v_worldNormal;
+        varying vec3 v_worldPosition;
+
+        uniform vec3 u_worldCameraPosition;
+
+        uniform sampler2D u_textureImage;
+        uniform samplerCube u_textureEnvironment;
+        uniform sampler2D u_textureBump;
         
         void main() {
             gl_FragColor = v_color;
+
+            if(u_textureMode == 0) { //Custom/Image
+                gl_FragColor = texture2D(u_textureImage, v_textureCoord);
+            } else if(u_textureMode == 1) { //Reflective
+                vec3 worldNormal = normalize(v_worldNormal);
+                vec3 eyeToSurfaceDir = normalize(v_worldPosition - u_worldCameraPosition);
+                vec3 direction = reflect(eyeToSurfaceDir,worldNormal);
+                gl_FragColor = textureCube(u_textureEnvironment, direction);
+            } else if(u_textureMode == 2) { //Bump
+
+            }
 
             vec3 normal = normalize(v_normal);
             if (u_light > 0.0) {
