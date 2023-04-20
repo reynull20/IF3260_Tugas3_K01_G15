@@ -26,6 +26,7 @@
                 <ol>
                     <li>Load a model(s) by clicking Load Button, models are in test folder</li>
                     <li>Select a model from the dropdown list</li>
+                    <li>Select component you want to transform</li>
                 </ol>
                 <hr>
                 <h4><u>Projection Modes</u></h4>
@@ -73,13 +74,25 @@
                 </ul>
                 <hr>
                 <h4><u>Translation</u></h4>
-                <p>Apply translation transformation to selected model</p>
+                <p>Apply translation transformation to selected model component</p>
                 <hr>
                 <h4><u>Rotation</u></h4>
-                <p>Apply rotation transformation to selected model</p>
+                <p>Apply rotation transformation to selected model component</p>
                 <hr>
                 <h4><u>Scale</u></h4>
-                <p>Apply scaling transformation to selected model</p>
+                <p>Apply scaling transformation to selected model component</p>
+                <hr>
+                <h4><u>Articulated Translation</u></h4>
+                <p>Apply translation transformation to selected model component and its childs</p>
+                <hr>
+                <h4><u>Articulated Rotation</u></h4>
+                <p>Apply rotation transformation to selected model component and its childs based on selected component center point</p>
+                <hr>
+                <h4><u>Articulated Scale</u></h4>
+                <p>Apply scaling transformation to selected model component and its childs</p>
+                <hr>
+                <h4><u>Joint Rotation</u></h4>
+                <p>Apply rotation transformation to selected model component and its childs based on joint point defined in model</p>
                 <hr>
                 <h4><u>Shading</u></h4>
                 <ul>
@@ -89,6 +102,19 @@
                 <hr>
                 <h4><u>Lighting</u></h4>
                 <p>Set the light position (for shading)</p>
+                <hr>
+                <h4><u>Mappings</u></h4>
+                <p>Program provides rendering 4 different modes</p>
+                <p>Rendering modes defined in model JSON with the parameter textureMode</p>
+                <ul>
+                    <li>(-1) Flat Shading</li>
+                    <li>(0) Texture Mapping</li>
+                    <li>(1) Environment Mapping</li>
+                    <li>(2) Bump Mapping</li>
+                </ul>
+                <hr>
+                <h4><u>Animation</u></h4>
+                <p>Animation (if defined in model) can be played/stopped by the Play/Stop Button beside Save and Load Button</p>
                 <hr>
                 <h4><u>Reset View</u></h4>
                 <p>Reset the view configuration (i.e. camera & projection parameter) to it's default parameter</p>
