@@ -331,7 +331,8 @@ class Model {
             "ch_translation": this.ch_translation,
             "ch_rotation": this.ch_rotation,
             "ch_scale": this.ch_scale,
-            "childs": []
+            "childs": [],
+            "animation": this.animation
         }
         for (let i = 0; i < this.childs.length; i++) {
             data.childs.push(this.childs[i].saveRecursively());

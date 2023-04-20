@@ -71,10 +71,11 @@ var radiusCamera = 400;
 var lightBase = [0, 0, 1];
 var light = [0, 0, 1];
 var shading = true;
-var stopped = false;
+var stopped = true;
+var globalID = null;
 
 selectModel.addEventListener("input", function (event) {
-    selectedModel = models[frame][parseInt(event.target.value)];
+    selectedModel = models[parseInt(event.target.value)];
     selectedComponent = selectedModel;
     setupSelectedModel();
 });

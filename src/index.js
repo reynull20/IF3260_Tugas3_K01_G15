@@ -406,7 +406,7 @@ function setUpTools() {
     btnLoad.addEventListener("click", function(e) {loadModels();});
 
     const btnPauseStart = document.querySelector("#btn-pause");
-    btnPauseStart.addEventListener("click", function(e) {stopped=!stopped;requestAnimationFrame(drawScene);});
+    btnPauseStart.addEventListener("click", function(e) {stopped=!stopped; if (stopped) btnPauseStart.innerHTML = "Start"; else btnPauseStart.innerHTML = "Stop"; requestAnimationFrame(drawScene);});
 
     const shadingCheck = document.querySelector("#shading-check");
     shadingCheck.addEventListener("change", function(e) {changeShading();});
@@ -653,7 +653,10 @@ function drawScene(now) {
 
     // Draw the next frame
     if (!stopped){
-        requestAnimationFrame(drawScene);
+        globalID = requestAnimationFrame(drawScene);
+    }
+    else{
+        cancelAnimationFrame(globalID);
     }
 }
 
