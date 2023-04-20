@@ -1,7 +1,7 @@
 class Model {
     constructor(id = -1, name = "Undefined", vertices = [], colors = [], joints = [], translation = [0,0,0], rotation = [0,0,0], scale = [0,0,0], ch_translation = [0,0,0], ch_rotation = [0,0,0], ch_scale = [0,0,0], animation = [], childs = [], parentMatrix = m4.identity(), textureMode = -1) {
         if(textureMode == null) {
-            textureMode = 2;
+            textureMode = -1;
         }
         this.id = id;
         this.name = name;
