@@ -19,6 +19,7 @@ class Model {
         this.matrix_child = this.modelMatrixChild(this.parentMatrix);
         this.matrix = this.modelMatrix();
         this.setupChilds(childs);
+        this.currentAnimIndex = 0;
     }
 
     setupChilds = (childs) => {
@@ -29,6 +30,10 @@ class Model {
     }
     
     traverseAsArray = () => {
+        if (this.name === "Torso") {
+            this.updateMatrix()
+            this.updateAnimation()
+        }
         let array = [];
         array.push(this);
         for (let i = 0; i < this.childs.length; i++) {
@@ -52,7 +57,6 @@ class Model {
     updateJoint = () => {
         if (this.parentMatrix !== null) {
             let worldMatrix = m4.multiply(this.parentMatrix, this.joints);
-            console.log(worldMatrix);
             return [
                 worldMatrix[0], 0, 0, 1,
                 0, worldMatrix[5], 0, 1,
@@ -79,6 +83,71 @@ class Model {
         worldMatrix = m4.translate(worldMatrix, this.center[0]*(-1), this.center[1]*(-1), this.center[2]*(-1));
         worldMatrix = m4.multiply(worldMatrix, parentMatrix);
         return worldMatrix;
+    }
+
+    updateAnimation = () => {
+        var currentAnim = this.animation[this.currentAnimIndex];
+        var nextAnim = this.animation[(this.currentAnimIndex+1)%this.animation.length];
+        
+        // Select current and next frame
+        if (nextAnim.time === 0 || then < 0.05) {
+            this.translation = nextAnim.translation;
+            this.rotation = nextAnim.rotation;
+            this.scale = nextAnim.scale
+            this.joint_rotation = nextAnim.joint_rotation
+            this.ch_translation = nextAnim.ch_translation
+            this.ch_rotation = nextAnim.ch_rotation
+            this.ch_scale = nextAnim.ch_scale
+
+            this.currentAnimIndex = 0
+            currentAnim = this.animation[this.currentAnimIndex]
+            nextAnim = this.animation[(this.currentAnimIndex+1)%this.animation.length];
+            time = 0;
+        } else if (nextAnim.time < time + dt) {
+            currentAnim = nextAnim
+            this.currentAnimIndex = (this.currentAnimIndex + 1) % this.animation.length
+            nextAnim = this.animation[(this.currentAnimIndex+1) % this.animation.length]
+        }
+
+        // Interpolate between current and next frame
+        var dTime = nextAnim.time - currentAnim.time // interval between next and current frame in seconds
+        this.translation = [
+            this.translation[0] + (((nextAnim.translation[0] - currentAnim.translation[0])/dTime) * dt),
+            this.translation[1] + (((nextAnim.translation[1] - currentAnim.translation[1])/dTime) * dt),
+            this.translation[2] + (((nextAnim.translation[2] - currentAnim.translation[2])/dTime) * dt),
+        ]
+        this.rotation = [
+            this.rotation[0] + (((nextAnim.rotation[0] - currentAnim.rotation[0])/dTime) * dt),
+            this.rotation[1] + (((nextAnim.rotation[1] - currentAnim.rotation[1])/dTime) * dt),
+            this.rotation[2] + (((nextAnim.rotation[2] - currentAnim.rotation[2])/dTime) * dt),
+        ]
+        this.scale = [
+            this.scale[0] + (((nextAnim.scale[0] - currentAnim.scale[0])/dTime) * dt),
+            this.scale[1] + (((nextAnim.scale[1] - currentAnim.scale[1])/dTime) * dt),
+            this.scale[2] + (((nextAnim.scale[2] - currentAnim.scale[2])/dTime) * dt),
+        ]
+
+        this.joint_rotation = [
+            this.joint_rotation[0] + (((nextAnim.joint_rotation[0] - currentAnim.joint_rotation[0])/dTime) * dt),
+            this.joint_rotation[1] + (((nextAnim.joint_rotation[1] - currentAnim.joint_rotation[1])/dTime) * dt),
+            this.joint_rotation[2] + (((nextAnim.joint_rotation[2] - currentAnim.joint_rotation[2])/dTime) * dt),
+        ]
+        this.ch_translation = [
+            this.ch_translation[0] + (((nextAnim.ch_translation[0] - currentAnim.ch_translation[0])/dTime) * dt),
+            this.ch_translation[1] + (((nextAnim.ch_translation[1] - currentAnim.ch_translation[1])/dTime) * dt),
+            this.ch_translation[2] + (((nextAnim.ch_translation[2] - currentAnim.ch_translation[2])/dTime) * dt),
+        ]
+        this.ch_rotation = [
+            this.ch_rotation[0] + (((nextAnim.ch_rotation[0] - currentAnim.ch_rotation[0])/dTime) * dt),
+            this.ch_rotation[1] + (((nextAnim.ch_rotation[1] - currentAnim.ch_rotation[1])/dTime) * dt),
+            this.ch_rotation[2] + (((nextAnim.ch_rotation[2] - currentAnim.ch_rotation[2])/dTime) * dt),
+        ]
+        this.ch_scale = [
+            this.ch_scale[0] + (((nextAnim.ch_scale[0] - currentAnim.ch_scale[0])/dTime) * dt),
+            this.ch_scale[1] + (((nextAnim.ch_scale[1] - currentAnim.ch_scale[1])/dTime) * dt),
+            this.ch_scale[2] + (((nextAnim.ch_scale[2] - currentAnim.ch_scale[2])/dTime) * dt),
+        ]
+        console.log("Current Frame :: " + currentAnim.time + "s");
     }
 
     modelMatrix = () => {

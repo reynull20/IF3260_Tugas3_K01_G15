@@ -49,7 +49,6 @@ loadModels = () => {
                         models.push([]);
                     }
                     models[i].push(model);
-
                 }
             }
             selectModel.innerHTML = "";
@@ -59,7 +58,7 @@ loadModels = () => {
             selectedModel = models[frame][0];
             selectedComponent = selectedModel;
             setupSelectedModel();
-            drawScene();
+            requestAnimationFrame(drawScene);
         }
     }
     input.click();
@@ -143,91 +142,91 @@ setupComponentButtons = (model, depth) => {
 function sliderTransX(event) {
     selectedComponent.translation[0] = parseFloat(event.target.value)
     selectedComponent.updateMatrix()
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function sliderTransY(event) {
     selectedComponent.translation[1] = parseFloat(event.target.value)
     selectedComponent.updateMatrix()
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function sliderTransZ(event) {
     selectedComponent.translation[2] = parseFloat(event.target.value)
     selectedComponent.updateMatrix()
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function sliderRotateX(e) {
     selectedComponent.rotation[0] = parseFloat(e.target.value) * Math.PI / 180
     selectedComponent.updateMatrix()
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function sliderRotateY(e) {
     selectedComponent.rotation[1] = parseFloat(e.target.value) * Math.PI / 180
     selectedComponent.updateMatrix()
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function sliderRotateZ(e) {
     selectedComponent.rotation[2] = parseFloat(e.target.value) * Math.PI / 180
     selectedComponent.updateMatrix()
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function artSliderTransX(event) {
     selectedComponent.ch_translation[0] = parseFloat(event.target.value)
     selectedComponent.updateMatrix()
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function artSliderTransY(event) {
     selectedComponent.ch_translation[1] = parseFloat(event.target.value)
     selectedComponent.updateMatrix()
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function artSliderTransZ(event) {
     selectedComponent.ch_translation[2] = parseFloat(event.target.value)
     selectedComponent.updateMatrix()
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function jointSliderRotateX(e) {
     selectedComponent.joint_rotation[0] = parseFloat(e.target.value) * Math.PI / 180
     selectedComponent.updateMatrix()
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function jointSliderRotateY(e) {
     selectedComponent.joint_rotation[1] = parseFloat(e.target.value) * Math.PI / 180
     selectedComponent.updateMatrix()
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function jointSliderRotateZ(e) {
     selectedComponent.joint_rotation[2] = parseFloat(e.target.value) * Math.PI / 180
     selectedComponent.updateMatrix()
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function artSliderRotateX(e) {
     selectedComponent.ch_rotation[0] = parseFloat(e.target.value) * Math.PI / 180
     selectedComponent.updateMatrix()
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function artSliderRotateY(e) {
     selectedComponent.ch_rotation[1] = parseFloat(e.target.value) * Math.PI / 180
     selectedComponent.updateMatrix()
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function artSliderRotateZ(e) {
     selectedComponent.ch_rotation[2] = parseFloat(e.target.value) * Math.PI / 180
     selectedComponent.updateMatrix()
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function rotateX(angle) {
@@ -264,42 +263,42 @@ function sliderScaleX(e) {
     let scaleFactorX = parseFloat(e.target.value)
     selectedComponent.scale[0] = scaleFactorX
     selectedComponent.updateMatrix()
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function sliderScaleY(e) {
     let scaleFactorY = parseFloat(e.target.value)
     selectedComponent.scale[1] = scaleFactorY
     selectedComponent.updateMatrix()
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function sliderScaleZ(e) {
     let scaleFactorZ = parseFloat(e.target.value)
     selectedComponent.scale[2] = scaleFactorZ
     selectedComponent.updateMatrix()
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function artSliderScaleX(e) {
     let scaleFactorX = parseFloat(e.target.value)
     selectedComponent.ch_scale[0] = scaleFactorX
     selectedComponent.updateMatrix()
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function artSliderScaleY(e) {
     let scaleFactorY = parseFloat(e.target.value)
     selectedComponent.ch_scale[1] = scaleFactorY
     selectedComponent.updateMatrix()
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function artSliderScaleZ(e) {
     let scaleFactorZ = parseFloat(e.target.value)
     selectedComponent.ch_scale[2] = scaleFactorZ
     selectedComponent.updateMatrix()
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function degToRad(angle) {
@@ -342,17 +341,17 @@ multMat3WithMat3 = (m1,m2) => {
 
 function changeYCamera(e) {
     cameraYAngle = degToRad(parseInt(e.target.value))
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function changeXCamera(e) {
     cameraXAngle = degToRad(parseInt(e.target.value))
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function changeUpCamera(e) {
     cameraUpAngle = degToRad(parseInt(e.target.value))
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function changeLightX(e) {
@@ -372,12 +371,12 @@ function changeLightZ(e) {
 
 function readjustLight(){
     light = normalize(lightBase)
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function changeRadiusCamera(e) {
     radiusCamera = parseInt(e.target.value)
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function resetView() {
@@ -420,7 +419,7 @@ function resetView() {
     document.querySelector("#camera-radius").value = radiusCamera
     document.querySelector("#cameraRadiusValue").value = radiusCamera
 
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 // Projection Change
@@ -446,41 +445,41 @@ for (item in projections) {
             tools.children[2].style.display = "block"
         }
 
-        drawScene()
+        requestAnimationFrame(drawScene)
     }
 }
 
 changeOrthoNear = (e) => {
     near = parseInt(e.target.value)
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 changeOrthoFar = (e) => {
     far = parseInt(e.target.value)
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 changePersNear = (e) => {
     zNear = parseInt(e.target.value)
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 changePersFar = (e) => {
     zFar = parseInt(e.target.value)
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 changeOblTheta = (e) => {
     theta = parseInt(e.target.value)
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 changeOblPhi = (e) => {
     phi = parseInt(e.target.value)
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 changeShading = () => {
     shading = !shading
-    drawScene()
+    requestAnimationFrame(drawScene)
 }

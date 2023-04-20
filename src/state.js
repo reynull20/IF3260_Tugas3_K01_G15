@@ -85,5 +85,5 @@ selectFrame.addEventListener("input", function (event) {
     selectedModel = models[frame][0];
     selectedComponent = selectedModel;
     setupSelectedModel();
-    drawScene();
+    // requestAnimationFrame(drawScene);
 });
