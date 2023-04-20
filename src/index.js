@@ -460,7 +460,7 @@ function updateBuffers(model, localFrame) {
     // TODO: bind texture cek udh bener ga
     var textureCoordBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, textureCoordBuffer);
-    setTextureCoords(gl, model.textureCoords);
+    setTextureCoord(gl, model.textureCoord);
     textureCoordBuffers[localFrame].push(textureCoordBuffer);    
 
     for (let i = 0; i < model.childs.length; i++) {
@@ -652,7 +652,7 @@ function changeFOV(e) {
     requestAnimationFrame(drawScene)
 }
 
-function setTextureCoords(gl, textureCoord) {
+function setTextureCoord(gl, textureCoord) {
     gl.bufferData(
         gl.ARRAY_BUFFER,
         new Float32Array(textureCoord),
@@ -687,8 +687,8 @@ function loadTextureImage(gl) {
         }
     });
     image.crossOrigin = "";
-    // image.src = "https://i.imgur.com/XArLydn.jpeg";
-    image.src = "https://webglfundamentals.org/webgl/resources/leaves.jpg";
+    image.src = "https://i.imgur.com/XArLydn.jpeg";
+    // image.src = "https://webglfundamentals.org/webgl/resources/leaves.jpg";
 
     return texture;
 }

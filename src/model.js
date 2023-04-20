@@ -1,7 +1,7 @@
 class Model {
-    constructor(id = -1, name = "Undefined", vertices = [], colors = [], joints = [], translation = [0,0,0], rotation = [0,0,0], scale = [0,0,0], ch_translation = [0,0,0], ch_rotation = [0,0,0], ch_scale = [0,0,0], animation = [], childs = [], parentMatrix = m4.identity(), textureMode = -1) {
+    constructor(id = -1, name = "Undefined", vertices = [], colors = [], joints = [], translation = [0,0,0], rotation = [0,0,0], scale = [0,0,0], ch_translation = [0,0,0], ch_rotation = [0,0,0], ch_scale = [0,0,0], animation = [], childs = [], parentMatrix = m4.identity(), textureMode = 0) {
         if(textureMode == null) {
-            textureMode = -1;
+            textureMode = 0;
         }
         this.id = id;
         this.name = name;
@@ -274,11 +274,11 @@ class Model {
         let textureCoord = [];
         for (let i = 0; i < this.vertices.length; i+=18) {
             textureCoord = textureCoord.concat([
+                0, 0, // kiri atas
+                0, 1, // kiri bawah
+                1, 1, // kanan bawah
                 0, 0,
-                0, 1,
-                1, 0,
-                0, 1,
-                1, 1,
+                1, 1, // kanan atas
                 1, 0,
             ]);
             // textureCoord = textureCoord.concat([
