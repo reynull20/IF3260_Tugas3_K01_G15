@@ -43,24 +43,24 @@ git clone git@github.com:reynull20/IF3260_Tugas3_K01_G15.git
 
 <img
   src="img/baling.png"
-  alt="Articulated Model Baling-baling"
-  title="Articulated Model Baling-baling"
+  alt="Articulated Model Beruang"
+  title="Articulated Model Beruang"
   style="display: inline-block; margin: 0 auto; max-width: 600px">
 
 - Steve (Humanoid)
 
 <img
-  src="img/baling.png"
-  alt="Articulated Model Baling-baling"
-  title="Articulated Model Baling-baling"
+  src="img/steve.png"
+  alt="Articulated Model Humanoid"
+  title="Articulated Model Humanoid"
   style="display: inline-block; margin: 0 auto; max-width: 600px">
 
 - Laba-laba (Arachnoid)
 
 <img
   src="img/baling.png"
-  alt="Articulated Model Baling-baling"
-  title="Articulated Model Baling-baling"
+  alt="Articulated Model Laba-laba"
+  title="Articulated Model Laba-laba"
   style="display: inline-block; margin: 0 auto; max-width: 600px">
 
 # Authors
