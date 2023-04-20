@@ -83,5 +83,5 @@ selectModel.addEventListener("input", function (event) {
 const selectTexture = document.getElementById("select-texture");
 selectTexture.addEventListener("input", function (event) {
     selectedComponent.textureMode = parseInt(event.target.value);
-    // drawScene();
+    globalId = requestAnimationFrame(drawScene);
 });
