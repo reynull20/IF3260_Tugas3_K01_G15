@@ -58,7 +58,7 @@ git clone git@github.com:reynull20/IF3260_Tugas3_K01_G15.git
 - Laba-laba (Arachnoid)
 
 <img
-  src="img/baling.png"
+  src="img/spider.png"
   alt="Articulated Model Laba-laba"
   title="Articulated Model Laba-laba"
   style="display: inline-block; margin: 0 auto; max-width: 600px">
