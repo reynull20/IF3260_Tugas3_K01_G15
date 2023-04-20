@@ -59,10 +59,35 @@ loadModels = () => {
             selectedModel = models[frame][0];
             selectedComponent = selectedModel;
             setupSelectedModel();
+            setupAnimation();
             drawScene();
         }
     }
     input.click();
+}
+
+setupAnimation = () => {
+    let frames = document.getElementById("animation-frame");
+    let frameName = document.getElementById("current-frame");
+    frames.innerHTML = "";
+    for (let i = 0; i < models.length; i++){
+        let button = document.createElement("button");
+        button.innerHTML = "frame " + i;
+        button.id = "frame-" + i;
+        button.style.marginLeft = 20 + "px";
+        button.className = "btn-comp";
+        button.onclick = () => {
+            frameName.innerHTML = button.innerHTML;
+            frame = i;
+            selectedModel = models[frame][0];
+            selectedComponent = selectedModel;
+            setupSelectedModel();
+            drawScene();
+        }
+        frames.insertRow().insertCell().appendChild(button);
+    }
+
+    frameName.innerHTML = "frame " + frame;
 }
 
 setupSelectedModel = () => {

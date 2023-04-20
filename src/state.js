@@ -83,7 +83,32 @@ const selectFrame = document.getElementById("select-frame");
 selectFrame.addEventListener("input", function (event) {
     frame = parseInt(event.target.value);
     selectedModel = models[frame][0];
+    console.log(selectedModel)
     selectedComponent = selectedModel;
     setupSelectedModel();
     drawScene();
 });
+
+const moveUpButton = document.getElementById("btn-move-up");
+moveUpButton.addEventListener("click", function () {
+    if (frame > 0){
+        var placeholderFrame = models[frame]
+        models[frame] = models[frame-1]
+        models[frame-1] = placeholderFrame
+        console.log(models)
+        setupSelectedModel();
+        drawScene();
+    }
+})
+
+const moveDownButton = document.getElementById("btn-move-down");
+moveDownButton.addEventListener("click", function () {
+    if (frame < models.length-1){
+        var placeholderFrame = models[frame]
+        models[frame] = models[frame+1]
+        models[frame+1] = placeholderFrame
+        console.log(models)
+        setupSelectedModel();
+        drawScene();
+    }
+})

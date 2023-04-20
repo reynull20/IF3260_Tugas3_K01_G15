@@ -16,6 +16,7 @@
             <button class="button-cls" id="btn-save" type="button">Save</button>
             <button class="button-cls" id="btn-load" type="button">Load</button>
             <button class="button-cls" id="btn-help" type="button" onclick="document.getElementById('alert').style.visibility='visible'">Help</button>
+            
             <div class="alert" id="alert" visibility="hidden">
                 <span class="closebtn" onclick="this.parentElement.style.visibility='hidden';">&times;</span>
                 <h2>Help Menu</h2>
@@ -97,6 +98,14 @@
             <h3> Current Component Name: <div id="current-component" style="text-decoration: underline;">-</div>  </h3>
             
             <table id="component-tree"> <!-- Tree will add models parts --> </table>
+        </div>
+
+        <div id="components">
+            <h3> Current Frame Name: <div id="current-frame" style="text-decoration: underline;">-</div>  </h3>
+            <table id="animation-frame"> <!-- Tree will add frame parts --> </table>
+
+            <button class="btn-comp" id="btn-move-up" type="button">Move Up</button>
+            <button class="btn-comp" id="btn-move-down" type="button">Move Down</button>
         </div>
 
         <div id="tools">
