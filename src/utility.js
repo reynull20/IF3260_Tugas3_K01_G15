@@ -1,14 +1,14 @@
 saveModels = () => {
     let savedModels = [];
+    console.log(models);
     for (let i = 0; i < models.length; i++) {
-        let model = models[i];
-        let savedModel = {
-            "id" : model.id,
-            "vertices" : model.manipulatedVertices(),
-            "colors" : model.colors,
-            "normals" : model.normals,
+        let savedModelFrame = [];
+        for (let j = 0; j < models[i].length; j++) {
+            let model = models[i][j];
+            console.log(model.saveRecursively());
+            savedModelFrame.push(model.saveRecursively());
         }
-        savedModels.push(savedModel);
+        savedModels.push(savedModelFrame);
     }
     if(savedModels.length == 0) {
         console.log("No models to save");

@@ -192,4 +192,24 @@ class Model {
         }
         this.normals = normals;
     }
+
+    saveRecursively = () => {
+        let data = {
+            "name": this.name,
+            "vertices": this.vertices,
+            "colors": this.colors,
+            "joint": this.joints,
+            "translation": this.translation,
+            "rotation": this.rotation,
+            "scale": this.scale,
+            "ch_translation": this.ch_translation,
+            "ch_rotation": this.ch_rotation,
+            "ch_scale": this.ch_scale,
+            "childs": []
+        }
+        for (let i = 0; i < this.childs.length; i++) {
+            data.childs.push(this.childs[i].saveRecursively());
+        }
+        return data;
+    }
 }
