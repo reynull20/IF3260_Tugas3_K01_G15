@@ -36,10 +36,8 @@ class Model {
     }
     
     traverseAsArray = () => {
-        if (this.name === "Torso") {
-            this.updateMatrix()
-            this.updateAnimation()   
-        }
+        this.updateMatrix()
+        this.updateAnimation()
         let array = [];
         array.push(this);
         for (let i = 0; i < this.childs.length; i++) {
@@ -104,7 +102,11 @@ class Model {
                 degToRad(nextAnim.rotation[2])
             ];
             this.scale = nextAnim.scale
-            this.joint_rotation = nextAnim.joint_rotation
+            this.joint_rotation = [
+                degToRad(nextAnim.joint_rotation[0]),
+                degToRad(nextAnim.joint_rotation[1]),
+                degToRad(nextAnim.joint_rotation[2])
+            ]
             this.ch_translation = nextAnim.ch_translation
             this.ch_rotation = [
                 degToRad(nextAnim.ch_rotation[0]),
@@ -126,7 +128,11 @@ class Model {
                 degToRad(nextAnim.rotation[2])
             ];
             this.scale = nextAnim.scale
-            this.joint_rotation = nextAnim.joint_rotation
+            this.joint_rotation = [
+                degToRad(nextAnim.joint_rotation[0]),
+                degToRad(nextAnim.joint_rotation[1]),
+                degToRad(nextAnim.joint_rotation[2])
+            ]
             this.ch_translation = nextAnim.ch_translation
             this.ch_rotation = [
                 degToRad(nextAnim.ch_rotation[0]),
@@ -171,9 +177,9 @@ class Model {
             this.ch_translation[2] + (((nextAnim.ch_translation[2] - this.ch_translation[2])/dTime) * dt),
         ]
         this.ch_rotation = [
-            this.ch_rotation[0] + (((nextAnim.ch_rotation[0] - this.ch_rotation[0])/dTime) * dt),
-            this.ch_rotation[1] + (((nextAnim.ch_rotation[1] - this.ch_rotation[1])/dTime) * dt),
-            this.ch_rotation[2] + (((nextAnim.ch_rotation[2] - this.ch_rotation[2])/dTime) * dt),
+            this.ch_rotation[0] + (((degToRad(nextAnim.ch_rotation[0]) - this.ch_rotation[0])/dTime) * dt),
+            this.ch_rotation[1] + (((degToRad(nextAnim.ch_rotation[1]) - this.ch_rotation[1])/dTime) * dt),
+            this.ch_rotation[2] + (((degToRad(nextAnim.ch_rotation[2]) - this.ch_rotation[2])/dTime) * dt),
         ]
         this.ch_scale = [
             this.ch_scale[0] + (((nextAnim.ch_scale[0] - this.ch_scale[0])/dTime) * dt),
