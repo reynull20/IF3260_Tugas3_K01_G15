@@ -1,5 +1,5 @@
 class Model {
-    constructor(id = -1, name = "Undefined", vertices = [], colors = [], joints = [], translation = [0,0,0], rotation = [0,0,0], scale = [0,0,0], ch_translation = [0,0,0], ch_rotation = [0,0,0], ch_scale = [0,0,0],childs = [], parentMatrix = m4.identity()) {
+    constructor(id = -1, name = "Undefined", vertices = [], colors = [], joints = [], translation = [0,0,0], rotation = [0,0,0], scale = [0,0,0], ch_translation = [0,0,0], ch_rotation = [0,0,0], ch_scale = [0,0,0], animation = [], childs = [], parentMatrix = m4.identity()) {
         this.id = id;
         this.name = name;
         this.vertices = vertices;
@@ -12,6 +12,7 @@ class Model {
         this.ch_translation = ch_translation;
         this.ch_rotation = ch_rotation;
         this.ch_scale = ch_scale;
+        this.animation = animation;
         this.parentMatrix = parentMatrix;
         this.setupCenter();
         this.calculateNormals();
@@ -23,7 +24,7 @@ class Model {
     setupChilds = (childs) => {
         this.childs = [];
         for (let i = 0; i < childs.length; i++) {
-            this.childs.push(new Model(childs[i].id, childs[i].name, childs[i].vertices, childs[i].colors, childs[i].joint, childs[i].translation, childs[i].rotation, childs[i].scale, childs[i].ch_translation, childs[i].ch_rotation, childs[i].ch_scale ,childs[i].childs, this.matrix_child));
+            this.childs.push(new Model(childs[i].id, childs[i].name, childs[i].vertices, childs[i].colors, childs[i].joint, childs[i].translation, childs[i].rotation, childs[i].scale, childs[i].ch_translation, childs[i].ch_rotation, childs[i].ch_scale, childs[i].animation, childs[i].childs, this.matrix_child));
         }
     }
     
@@ -49,24 +50,26 @@ class Model {
     }
 
     updateJoint = () => {
-        worldMatrix = m4.translate(this.joints,this.center[0], this.center[1], this.center[2])
-        worldMatrix = m4.translate(worldMatrix, this.translation[0], this.translation[1], this.translation[2]);
-        worldMatrix = m4.xRotate(worldMatrix, this.rotation[0]);
-        worldMatrix = m4.yRotate(worldMatrix, this.rotation[1]);
-        worldMatrix = m4.zRotate(worldMatrix, this.rotation[2]);
-        worldMatrix = m4.scale(worldMatrix, this.scale[0], this.scale[1], this.scale[2]);
-        worldMatrix = m4.translate(worldMatrix, this.center[0]*(-1), this.center[1]*(-1), this.center[2]*(-1));
-        worldMatrix = m4.multiply(this.matrix_child, worldMatrix);
-        this.joints = worldMatrix;
+        if (this.parentMatrix !== null) {
+            let worldMatrix = m4.multiply(this.parentMatrix, this.joints);
+            console.log(worldMatrix);
+            return [
+                worldMatrix[0], 0, 0, 1,
+                0, worldMatrix[5], 0, 1,
+                0, 0, worldMatrix[10], 1,
+                0, 0, 0, 1
+            ];
+        }
+        return this.joints;
     }
 
     modelMatrixChild = (parentMatrix = m4.identity()) => {
-        this.updateJoint;
-        let worldMatrix = m4.translation(this.joints[0],this.joints[5],this.joints[10]);
+        let current_joint = this.updateJoint();
+        let worldMatrix = m4.translation(current_joint[0],current_joint[5],current_joint[10]);
         worldMatrix = m4.xRotate(worldMatrix,this.joint_rotation[0]);
         worldMatrix = m4.yRotate(worldMatrix,this.joint_rotation[1]);
         worldMatrix = m4.zRotate(worldMatrix,this.joint_rotation[2]);
-        worldMatrix = m4.translate(worldMatrix,-this.joints[0],-this.joints[5],-this.joints[10]);
+        worldMatrix = m4.translate(worldMatrix,-current_joint[0],-current_joint[5],-current_joint[10]);
         worldMatrix = m4.translate(worldMatrix,this.center[0], this.center[1], this.center[2])
         worldMatrix = m4.translate(worldMatrix, this.ch_translation[0], this.ch_translation[1], this.ch_translation[2]);
         worldMatrix = m4.xRotate(worldMatrix, this.ch_rotation[0]);
@@ -80,7 +83,6 @@ class Model {
 
     modelMatrix = () => {
         let worldMatrix = m4.identity();
-        this.updateJoint;
         worldMatrix = m4.translate(worldMatrix,this.center[0], this.center[1], this.center[2])
         worldMatrix = m4.translate(worldMatrix, this.translation[0], this.translation[1], this.translation[2]);
         worldMatrix = m4.xRotate(worldMatrix, this.rotation[0]);

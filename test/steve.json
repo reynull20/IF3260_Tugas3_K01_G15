@@ -88,17 +88,49 @@
     ],
     "translation": [0,0,0],
     "rotation": [0,0,0],
-    "scale":[1,2,1],
+    "scale":[1,1,1],
     "joint":[
-        0, 0, 0, 0,
-        0, 0, 0, 0, 
-        0, 0, 0, 0,
-        0, 0, 0, 0
+        0, 0, 0, 1,
+        0, 0, 0, 1, 
+        0, 0, 0, 1,
+        0, 0, 0, 1
     ],
 
     "ch_translation":[0,0,0],
     "ch_rotation":[0,0,0],
     "ch_scale":[1,1,1],
+    "animation":[
+        {
+            "time":0,
+            "translation": [0,0,0],
+            "rotation": [0,0,0],
+            "scale":[1,1,1],
+            "joint_rotation":[0,0,0],
+            "ch_translation":[0,0,0],
+            "ch_rotation":[0,0,0],
+            "ch_scale":[1,1,1]
+        },
+        {
+            "time":1,
+            "translation": [0,0,0],
+            "rotation": [0,0,0],
+            "scale":[1,1,1],
+            "joint_rotation":[0,0,0],
+            "ch_translation":[0,0,0],
+            "ch_rotation":[0,0,0],
+            "ch_scale":[1,1,1]
+        },
+        {
+            "time":4,
+            "translation": [0,0,0],
+            "rotation": [0,0,0],
+            "scale":[1,1,1],
+            "joint_rotation":[0,0,0],
+            "ch_translation":[0,0,0],
+            "ch_rotation":[0,0,0],
+            "ch_scale":[1,1,1]
+        }
+    ],
     "childs":[
         {
             "name": "Head",
@@ -190,17 +222,49 @@
                 ],
             "translation": [0,0,0],
             "rotation": [0,0,0],
-            "scale":[0,0,0],
+            "scale":[1,1,1],
             "joint":[
-                0, 0, 0, 0,
-                0, 150, 0, 0, 
-                0, 0, 0, 0,
-                0, 0, 0, 0
+                0, 0, 0, 1,
+                0, 150, 0, 1, 
+                0, 0, 0, 1,
+                0, 0, 0, 1
             ],
 
             "ch_translation":[0,0,0],
             "ch_rotation":[0,0,0],
             "ch_scale":[1,1,1],
+            "animation":[
+                {
+                    "time":0,
+                    "translation": [0,0,0],
+                    "rotation": [0,0,0],
+                    "scale":[1,1,1],
+                    "joint_rotation":[0,0,0],
+                    "ch_translation":[0,0,0],
+                    "ch_rotation":[0,0,0],
+                    "ch_scale":[1,1,1]
+                },
+                {
+                    "time":1,
+                    "translation": [0,0,0],
+                    "rotation": [0,0,0],
+                    "scale":[1,1,1],
+                    "joint_rotation":[0,0,0],
+                    "ch_translation":[0,0,0],
+                    "ch_rotation":[0,0,0],
+                    "ch_scale":[1,1,1]
+                },
+                {
+                    "time":4,
+                    "translation": [0,0,0],
+                    "rotation": [0,0,0],
+                    "scale":[1,1,1],
+                    "joint_rotation":[0,0,0],
+                    "ch_translation":[0,0,0],
+                    "ch_rotation":[0,0,0],
+                    "ch_scale":[1,1,1]
+                }
+            ],
             "childs":[]
         },
         {
@@ -293,17 +357,49 @@
                 ],
             "translation": [0,0,0],
             "rotation": [0,0,0],
-            "scale":[0,0,0],
+            "scale":[1,1,1],
             "joint":[
-                130, 0, 0, 0,
-                0, 120, 0, 0,
-                0, 0, 0, 0,
-                0, 0, 0, 0
+                130, 0, 0, 1,
+                0, 120, 0, 1,
+                0, 0, 0, 1,
+                0, 0, 0, 1
             ],
 
             "ch_translation":[0,0,0],
             "ch_rotation":[0,0,0],
             "ch_scale":[1,1,1],
+            "animation":[
+                {
+                    "time":0,
+                    "translation": [0,0,0],
+                    "rotation": [0,0,0],
+                    "scale":[1,1,1],
+                    "joint_rotation":[0,0,0],
+                    "ch_translation":[0,0,0],
+                    "ch_rotation":[0,0,0],
+                    "ch_scale":[1,1,1]
+                },
+                {
+                    "time":1,
+                    "translation": [0,0,0],
+                    "rotation": [0,0,0],
+                    "scale":[1,1,1],
+                    "joint_rotation":[0,0,0],
+                    "ch_translation":[0,0,0],
+                    "ch_rotation":[0,0,0],
+                    "ch_scale":[1,1,1]
+                },
+                {
+                    "time":4,
+                    "translation": [0,0,0],
+                    "rotation": [0,0,0],
+                    "scale":[1,1,1],
+                    "joint_rotation":[0,0,0],
+                    "ch_translation":[0,0,0],
+                    "ch_rotation":[0,0,0],
+                    "ch_scale":[1,1,1]
+                }
+            ],
             "childs":[]
         },
         {
@@ -396,17 +492,49 @@
                 ],
             "translation": [0,0,0],
             "rotation": [0,0,0],
-            "scale":[0,0,0],
+            "scale":[1,1,1],
             "joint":[
-                -130, 0, 0, 0,
-                0, 120, 0, 0, 
-                0, 0, 0, 0,
-                0, 0, 0, 0
+                -130, 0, 0, 1,
+                0, 120, 0, 1, 
+                0, 0, 0, 1,
+                0, 0, 0, 1
             ],
 
             "ch_translation":[0,0,0],
             "ch_rotation":[0,0,0],
             "ch_scale":[1,1,1],
+            "animation":[
+                {
+                    "time":0,
+                    "translation": [0,0,0],
+                    "rotation": [0,0,0],
+                    "scale":[1,1,1],
+                    "joint_rotation":[0,0,0],
+                    "ch_translation":[0,0,0],
+                    "ch_rotation":[0,0,0],
+                    "ch_scale":[1,1,1]
+                },
+                {
+                    "time":1,
+                    "translation": [0,0,0],
+                    "rotation": [0,0,0],
+                    "scale":[1,1,1],
+                    "joint_rotation":[0,0,0],
+                    "ch_translation":[0,0,0],
+                    "ch_rotation":[0,0,0],
+                    "ch_scale":[1,1,1]
+                },
+                {
+                    "time":4,
+                    "translation": [0,0,0],
+                    "rotation": [0,0,0],
+                    "scale":[1,1,1],
+                    "joint_rotation":[0,0,0],
+                    "ch_translation":[0,0,0],
+                    "ch_rotation":[0,0,0],
+                    "ch_scale":[1,1,1]
+                }
+            ],
             "childs":[]
         },
         {
@@ -499,17 +627,49 @@
                 ],
             "translation": [0,0,0],
             "rotation": [0,0,0],
-            "scale":[0,0,0],
+            "scale":[1,1,1],
             "joint":[
-                50, 0, 0, 0,
-                0, -150, 0, 0,
-                0, 0, 0, 0,
-                0, 0, 0, 0
+                50, 0, 0, 1,
+                0, -150, 0, 1,
+                0, 0, 0, 1,
+                0, 0, 0, 1
             ],
 
             "ch_translation":[0,0,0],
             "ch_rotation":[0,0,0],
             "ch_scale":[1,1,1],
+            "animation":[
+                {
+                    "time":0,
+                    "translation": [0,0,0],
+                    "rotation": [0,0,0],
+                    "scale":[1,1,1],
+                    "joint_rotation":[0,0,0],
+                    "ch_translation":[0,0,0],
+                    "ch_rotation":[0,0,0],
+                    "ch_scale":[1,1,1]
+                },
+                {
+                    "time":1,
+                    "translation": [0,0,0],
+                    "rotation": [0,0,0],
+                    "scale":[1,1,1],
+                    "joint_rotation":[0,0,0],
+                    "ch_translation":[0,0,0],
+                    "ch_rotation":[0,0,0],
+                    "ch_scale":[1,1,1]
+                },
+                {
+                    "time":4,
+                    "translation": [0,0,0],
+                    "rotation": [0,0,0],
+                    "scale":[1,1,1],
+                    "joint_rotation":[0,0,0],
+                    "ch_translation":[0,0,0],
+                    "ch_rotation":[0,0,0],
+                    "ch_scale":[1,1,1]
+                }
+            ],
             "childs":[]
         },
         {
@@ -602,17 +762,49 @@
                 ],
             "translation": [0,0,0],
             "rotation": [0,0,0],
-            "scale":[0,0,0],
+            "scale":[1,1,1],
             "joint":[
-                -50, 0, 0, 0,
-                0, -150, 0, 0,
-                0, 0, 0, 0,
-                0, 0, 0, 0
+                -50, 0, 0, 1,
+                0, -150, 0, 1,
+                0, 0, 0, 1,
+                0, 0, 0, 1
             ],
 
             "ch_translation":[0,0,0],
             "ch_rotation":[0,0,0],
             "ch_scale":[1,1,1],
+            "animation":[
+                {
+                    "time":0,
+                    "translation": [0,0,0],
+                    "rotation": [0,0,0],
+                    "scale":[1,1,1],
+                    "joint_rotation":[0,0,0],
+                    "ch_translation":[0,0,0],
+                    "ch_rotation":[0,0,0],
+                    "ch_scale":[1,1,1]
+                },
+                {
+                    "time":1,
+                    "translation": [0,0,0],
+                    "rotation": [0,0,0],
+                    "scale":[1,1,1],
+                    "joint_rotation":[0,0,0],
+                    "ch_translation":[0,0,0],
+                    "ch_rotation":[0,0,0],
+                    "ch_scale":[1,1,1]
+                },
+                {
+                    "time":4,
+                    "translation": [0,0,0],
+                    "rotation": [0,0,0],
+                    "scale":[1,1,1],
+                    "joint_rotation":[0,0,0],
+                    "ch_translation":[0,0,0],
+                    "ch_rotation":[0,0,0],
+                    "ch_scale":[1,1,1]
+                }
+            ],
             "childs":[]
         }
     ]
