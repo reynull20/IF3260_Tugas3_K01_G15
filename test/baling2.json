@@ -109,18 +109,18 @@
                 "translation": [0,0,0],
                 "rotation": [0,0,0],
                 "scale":[1,1,1],
-                "joint_rotation":[100,0,0],
+                "joint_rotation":[0,0,0],
                 "ch_translation":[0,0,0],
                 "ch_rotation":[0,0,0],
                 "ch_scale":[1,1,1]
             },
             {
                 "time":1,
-                "translation": [-100,0,0],
+                "translation": [0,0,0],
                 "rotation": [0,0,0],
                 "scale":[1,1,1],
-                "joint_rotation":[-100,0,0],
-                "ch_translation":[0,0,0],
+                "joint_rotation":[0,0,0],
+                "ch_translation":[100,0,0],
                 "ch_rotation":[0,0,0],
                 "ch_scale":[1,1,1]
             },
@@ -298,6 +298,18 @@
                 "ch_rotation": [0, 0, 0],
                 "ch_scale": [1, 1, 1],
                 "textureMode": -1,
+                "animation": [
+                    {
+                        "time":2,
+                        "translation": [0,0,0],
+                        "rotation": [0,0,0],
+                        "scale":[1,1,1],
+                        "joint_rotation":[0,0,0],
+                        "ch_translation":[0,0,0],
+                        "ch_rotation":[0,0,0],
+                        "ch_scale":[1,1,1]
+                    }
+                ],
                 "childs":[
                     {
                         "name": "Rotator",
@@ -429,7 +441,7 @@
                                 "rotation": [0,0,0],
                                 "scale":[1,1,1],
                                 "joint_rotation":[0,0,0],
-                                "ch_translation":[0,120,0],
+                                "ch_translation":[0,0,0],
                                 "ch_rotation":[0,0,0],
                                 "ch_scale":[1,1,1]
                             },
@@ -438,9 +450,9 @@
                                 "translation": [0,0,0],
                                 "rotation": [0,0,0],
                                 "scale":[1,1,1],
-                                "joint_rotation":[0,240,0],
+                                "joint_rotation":[0,0,0],
                                 "ch_translation":[0,0,0],
-                                "ch_rotation":[0,0,0],
+                                "ch_rotation":[0,120,0],
                                 "ch_scale":[1,1,1]
                             },
                             {
@@ -448,9 +460,9 @@
                                 "translation": [0,0,0],
                                 "rotation": [0,0,0],
                                 "scale":[1,1,1],
-                                "joint_rotation":[0,360,0],
+                                "joint_rotation":[0,0,0],
                                 "ch_translation":[0,0,0],
-                                "ch_rotation":[0,0,0],
+                                "ch_rotation":[0,240,0],
                                 "ch_scale":[1,1,1]
                             },
                             {
@@ -458,9 +470,9 @@
                                 "translation": [0,0,0],
                                 "rotation": [0,0,0],
                                 "scale":[1,1,1],
-                                "joint_rotation":[0,240,0],
+                                "joint_rotation":[0,0,0],
                                 "ch_translation":[0,0,0],
-                                "ch_rotation":[0,0,0],
+                                "ch_rotation":[0,360,0],
                                 "ch_scale":[1,1,1]
                             },
                             {
@@ -468,9 +480,9 @@
                                 "translation": [0,0,0],
                                 "rotation": [0,0,0],
                                 "scale":[1,1,1],
-                                "joint_rotation":[0,120,0],
+                                "joint_rotation":[0,0,0],
                                 "ch_translation":[0,0,0],
-                                "ch_rotation":[0,0,0],
+                                "ch_rotation":[0,240,0],
                                 "ch_scale":[1,1,1]
                             },
                             {
@@ -480,7 +492,7 @@
                                 "scale":[1,1,1],
                                 "joint_rotation":[0,0,0],
                                 "ch_translation":[0,0,0],
-                                "ch_rotation":[0,0,0],
+                                "ch_rotation":[0,120,0],
                                 "ch_scale":[1,1,1]
                             },
                             {
@@ -591,6 +603,19 @@
                                 "ch_rotation": [0, 0, 0],
                                 "ch_scale": [1, 1, 1],
                                 "textureMode": -1,
+                                "animation": [
+                                    {
+                                        "time":2,
+                                        "translation": [0,0,0],
+                                        "rotation": [0,0,0],
+                                        "scale":[1,1,1],
+                                        "joint_rotation":[0,0,0],
+                                        "ch_translation":[0,0,0],
+                                        "ch_rotation":[0,0,0],
+                                        "ch_scale":[1,1,1]
+                                    }
+                                ],
+        
                                 "joint": [
                                     0, 0, 0, 0,
                                     0, 120, 0, 0,
@@ -599,7 +624,7 @@
                                 ]
                             },
                             {
-                                "name":"Baling-baling -1",
+                                "name":"Baling-baling 2",
                                 "vertices":[
                                     20, 110, -20,
                                     20, 130, -20,
@@ -694,6 +719,18 @@
                                 "ch_rotation": [0, 0, 0],
                                 "ch_scale": [1, 1, 1],
                                 "textureMode": -1,
+                                "animation": [
+                                    {
+                                        "time":2,
+                                        "translation": [0,0,0],
+                                        "rotation": [0,0,0],
+                                        "scale":[1,1,1],
+                                        "joint_rotation":[0,0,0],
+                                        "ch_translation":[0,0,0],
+                                        "ch_rotation":[0,0,0],
+                                        "ch_scale":[1,1,1]
+                                    }
+                                ],
                                 "joint": [
                                     20, 0, 0, 0,
                                     0, 120, 0, 0,
@@ -797,6 +834,18 @@
                                 "ch_rotation": [0, 0, 0],
                                 "ch_scale": [1, 1, 1],
                                 "textureMode": -1,
+                                "animation": [
+                                    {
+                                        "time":2,
+                                        "translation": [0,0,0],
+                                        "rotation": [0,0,0],
+                                        "scale":[1,1,1],
+                                        "joint_rotation":[0,0,0],
+                                        "ch_translation":[0,0,0],
+                                        "ch_rotation":[0,0,0],
+                                        "ch_scale":[1,1,1]
+                                    }
+                                ],
                                 "joint": [
                                     0, 0, 0, 0,
                                     0, 120, 0, 0,
@@ -900,6 +949,18 @@
                                 "ch_rotation": [0, 0, 0],
                                 "ch_scale": [1, 1, 1],
                                 "textureMode": -1,
+                                "animation": [
+                                    {
+                                        "time":2,
+                                        "translation": [0,0,0],
+                                        "rotation": [0,0,0],
+                                        "scale":[1,1,1],
+                                        "joint_rotation":[0,0,0],
+                                        "ch_translation":[0,0,0],
+                                        "ch_rotation":[0,0,0],
+                                        "ch_scale":[1,1,1]
+                                    }
+                                ],
                                 "joint": [
                                     -20, 0, 0, 0,
                                     0, 120, 0, 0,
@@ -1008,6 +1069,19 @@
                 "ch_rotation": [0, 0, 0],
                 "ch_scale": [1, 1, 1],
                 "textureMode": -1,
+                "animation": [
+                    {
+                        "time":2,
+                        "translation": [0,0,0],
+                        "rotation": [0,0,0],
+                        "scale":[1,1,1],
+                        "joint_rotation":[0,0,0],
+                        "ch_translation":[0,0,0],
+                        "ch_rotation":[0,0,0],
+                        "ch_scale":[1,1,1]
+                    }
+                ],
+                
 
                 "joint":
                 [
@@ -1115,6 +1189,18 @@
                         "ch_rotation": [0, 0, 0],
                         "ch_scale": [1, 1, 1],
                         "textureMode": -1,
+                        "animation": [
+                            {
+                                "time":2,
+                                "translation": [0,0,0],
+                                "rotation": [0,0,0],
+                                "scale":[1,1,1],
+                                "joint_rotation":[0,0,0],
+                                "ch_translation":[0,0,0],
+                                "ch_rotation":[0,0,0],
+                                "ch_scale":[1,1,1]
+                            }
+                        ],
 
                         "joint":
                         [
@@ -1222,6 +1308,18 @@
                 "ch_rotation": [0, 0, 0],
                 "ch_scale": [1, 1, 1],
                 "textureMode": -1,
+                "animation": [
+                    {
+                        "time":2,
+                        "translation": [0,0,0],
+                        "rotation": [0,0,0],
+                        "scale":[1,1,1],
+                        "joint_rotation":[0,0,0],
+                        "ch_translation":[0,0,0],
+                        "ch_rotation":[0,0,0],
+                        "ch_scale":[1,1,1]
+                    }
+                ],
 
                 "joint":
                 [
@@ -1327,6 +1425,18 @@
                         "ch_rotation": [0, 0, 0],
                         "ch_scale": [1, 1, 1],
                         "textureMode": -1,
+                        "animation": [
+                            {
+                                "time":2,
+                                "translation": [0,0,0],
+                                "rotation": [0,0,0],
+                                "scale":[1,1,1],
+                                "joint_rotation":[0,0,0],
+                                "ch_translation":[0,0,0],
+                                "ch_rotation":[0,0,0],
+                                "ch_scale":[1,1,1]
+                            }
+                        ],
 
                         "joint":
                         [
