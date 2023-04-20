@@ -369,12 +369,12 @@ var textureEnvironmentLoc = gl.getUniformLocation(program, "u_textureEnvironment
 var textureBumpLoc = gl.getUniformLocation(program, "u_textureBump");
 var cameraPositionLoc = gl.getUniformLocation(program, "u_worldCameraPosition");
 
-var positionBuffers = [[]];
-var colorBuffers = [[]];
-var normalBuffers = [[]];
-var textureCoordBuffers = [[]];
-var tangentBuffers = [[]];
-var bitangentBuffers = [[]];
+var positionBuffers = [];
+var colorBuffers = [];
+var normalBuffers = [];
+var textureCoordBuffers = [];
+var tangentBuffers = [];
+var bitangentBuffers = [];
 
 // Load All Textures
 var textureImageBuffer = loadTextureImage(gl);
@@ -404,6 +404,9 @@ function setUpTools() {
     btnSave.addEventListener("click", function(e) {saveModels();});
     const btnLoad = document.querySelector("#btn-load");
     btnLoad.addEventListener("click", function(e) {loadModels();});
+
+    const btnPauseStart = document.querySelector("#btn-pause");
+    btnPauseStart.addEventListener("click", function(e) {stopped=!stopped;requestAnimationFrame(drawScene);});
 
     const shadingCheck = document.querySelector("#shading-check");
     shadingCheck.addEventListener("change", function(e) {changeShading();});
@@ -443,44 +446,35 @@ function createProgram(gl, vertexShader, fragmentShader) {
     gl.deleteProgram(program)   
 }
 
-function updateBuffers(model, localFrame) {
-    // Check if there is enough frame, frame starts from 0
-    if (localFrame > positionBuffers.length-1) {
-        positionBuffers.push([]);
-        colorBuffers.push([]);
-        normalBuffers.push([]);
-        tangentBuffers.push([]);
-        bitangentBuffers.push([]);
-        textureCoordBuffers.push([]);
-    }
+function updateBuffers(model) {
     var positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     setGeometry(gl, model.vertices);
-    positionBuffers[localFrame].push(positionBuffer);
+    positionBuffers.push(positionBuffer);
     var colorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
     setColors(gl, model.colors);
-    colorBuffers[localFrame].push(colorBuffer);
+    colorBuffers.push(colorBuffer);
     var normalBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
     setNormals(gl, model.normals);
-    normalBuffers[localFrame].push(normalBuffer);
+    normalBuffers.push(normalBuffer);
     var tangentBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, tangentBuffer);
     setTangents(gl, model.tangents);
-    tangentBuffers[localFrame].push(tangentBuffer);
+    tangentBuffers.push(tangentBuffer);
     var bitangentBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, bitangentBuffer);
     setBitangents(gl, model.bitangents);
-    bitangentBuffers[localFrame].push(bitangentBuffer);
+    bitangentBuffers.push(bitangentBuffer);
     // TODO: bind texture cek udh bener ga
     var textureCoordBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, textureCoordBuffer);
     setTextureCoord(gl, model.textureCoord);
-    textureCoordBuffers[localFrame].push(textureCoordBuffer);    
+    textureCoordBuffers.push(textureCoordBuffer);    
 
     for (let i = 0; i < model.childs.length; i++) {
-        updateBuffers(model.childs[i], localFrame);
+        updateBuffers(model.childs[i]);
     }
 }
 
@@ -556,17 +550,16 @@ function drawScene(now) {
     gl.bindTexture(gl.TEXTURE_2D, textureBumpBuffer);       
     
     var idx = 0;
-    for(let i = 0; i < models[frame].length; i++) {
-        let model = models[frame][i];
+    for(let i = 0; i < models.length; i++) {
+        let model = models[i];
         
         traverse = model.traverseAsArray();
 
         for (let j = 0; j < traverse.length; j++) {
             let model = traverse[j];
-            console.log("Texture mode: "+model.textureMode);
             gl.uniform1i(textureModeLoc, Number(model.textureMode));            
             gl.enableVertexAttribArray(positionAttrLoc)
-            gl.bindBuffer(gl.ARRAY_BUFFER,positionBuffers[frame][idx])
+            gl.bindBuffer(gl.ARRAY_BUFFER,positionBuffers[idx])
 
             var size = 3            // 2 component per iteration
             var type = gl.FLOAT     // the data is 32-bit float
@@ -579,7 +572,7 @@ function drawScene(now) {
 
             // Color 
             gl.enableVertexAttribArray(colorLoc)
-            gl.bindBuffer(gl.ARRAY_BUFFER,colorBuffers[frame][idx])
+            gl.bindBuffer(gl.ARRAY_BUFFER,colorBuffers[idx])
         
             var size = 3;                 // 3 components per iteration
             var type = gl.UNSIGNED_BYTE;  // the data is 8bit unsigned values
@@ -591,7 +584,7 @@ function drawScene(now) {
                 
             // Normal
             gl.enableVertexAttribArray(normalLoc)
-            gl.bindBuffer(gl.ARRAY_BUFFER,normalBuffers[frame][idx])        
+            gl.bindBuffer(gl.ARRAY_BUFFER,normalBuffers[idx])        
             
             var size = 3;                 // 3 components per iteration
             var type = gl.FLOAT;          // the data is 32bit floats
@@ -603,7 +596,7 @@ function drawScene(now) {
 
             // Tangent
             gl.enableVertexAttribArray(tangentLoc)
-            gl.bindBuffer(gl.ARRAY_BUFFER,tangentBuffers[frame][idx])        
+            gl.bindBuffer(gl.ARRAY_BUFFER,tangentBuffers[idx])        
             
             var size = 3;                 // 3 components per iteration
             var type = gl.FLOAT;          // the data is 32bit floats
@@ -615,7 +608,7 @@ function drawScene(now) {
 
             // Bitangent
             gl.enableVertexAttribArray(bitangentLoc)
-            gl.bindBuffer(gl.ARRAY_BUFFER,bitangentBuffers[frame][idx])        
+            gl.bindBuffer(gl.ARRAY_BUFFER,bitangentBuffers[idx])        
             
             var size = 3;                 // 3 components per iteration
             var type = gl.FLOAT;          // the data is 32bit floats
@@ -627,7 +620,7 @@ function drawScene(now) {
 
             // Texture
             gl.enableVertexAttribArray(textureCoordLoc);
-            gl.bindBuffer(gl.ARRAY_BUFFER, textureCoordBuffers[frame][idx]);
+            gl.bindBuffer(gl.ARRAY_BUFFER, textureCoordBuffers[idx]);
 
             var size = 2;          // 2 components per iteration
             var type = gl.FLOAT;   // the data is 32bit floats
@@ -659,7 +652,9 @@ function drawScene(now) {
     }
 
     // Draw the next frame
-    requestAnimationFrame(drawScene);
+    if (!stopped){
+        requestAnimationFrame(drawScene);
+    }
 }
 
 function makeZToWMatrix(fudgeFactor) {

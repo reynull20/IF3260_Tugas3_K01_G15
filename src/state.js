@@ -61,7 +61,7 @@ sliderOblTheta.addEventListener("input", changeOblTheta)
 const sliderOblPhi = document.querySelector("#phi")
 sliderOblPhi.addEventListener("input", changeOblPhi)
 
-var models = [[]];
+var models = [];
 var selectedModel = null;
 var selectedComponent = null;
 var cameraYAngle = degToRad(0);
@@ -71,47 +71,13 @@ var radiusCamera = 400;
 var lightBase = [0, 0, 1];
 var light = [0, 0, 1];
 var shading = true;
-var frame = 0;
+var stopped = false;
 
 selectModel.addEventListener("input", function (event) {
     selectedModel = models[frame][parseInt(event.target.value)];
     selectedComponent = selectedModel;
     setupSelectedModel();
 });
-
-const selectFrame = document.getElementById("select-frame");
-selectFrame.addEventListener("input", function (event) {
-    frame = parseInt(event.target.value);
-    selectedModel = models[frame][0];
-    console.log(selectedModel)
-    selectedComponent = selectedModel;
-    setupSelectedModel();
-    // requestAnimationFrame(drawScene);
-});
-
-const moveUpButton = document.getElementById("btn-move-up");
-moveUpButton.addEventListener("click", function () {
-    if (frame > 0){
-        var placeholderFrame = models[frame]
-        models[frame] = models[frame-1]
-        models[frame-1] = placeholderFrame
-        console.log(models)
-        setupSelectedModel();
-        drawScene();
-    }
-})
-
-const moveDownButton = document.getElementById("btn-move-down");
-moveDownButton.addEventListener("click", function () {
-    if (frame < models.length-1){
-        var placeholderFrame = models[frame]
-        models[frame] = models[frame+1]
-        models[frame+1] = placeholderFrame
-        console.log(models)
-        setupSelectedModel();
-        drawScene();
-    }
-})
 
 const selectTexture = document.getElementById("select-texture");
 selectTexture.addEventListener("input", function (event) {

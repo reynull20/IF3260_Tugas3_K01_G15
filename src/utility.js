@@ -1,14 +1,7 @@
 saveModels = () => {
     let savedModels = [];
-    console.log(models);
     for (let i = 0; i < models.length; i++) {
-        let savedModelFrame = [];
-        for (let j = 0; j < models[i].length; j++) {
-            let model = models[i][j];
-            console.log(model.saveRecursively());
-            savedModelFrame.push(model.saveRecursively());
-        }
-        savedModels.push(savedModelFrame);
+        savedModels.push(models[i].saveRecursively());
     }
     if(savedModels.length == 0) {
         console.log("No models to save");
@@ -35,27 +28,18 @@ loadModels = () => {
         reader.onload = readerEvent => {
             let content = readerEvent.target.result;
             inputModels = JSON.parse(content);
-            for (let i = 0; i < inputModels.length; i++) {
-                let inputModelFrame = inputModels[i]; // Frame
-                if (selectFrame.length-1 < i) {
-                    selectFrame.appendChild(new Option("Frame " + (i), i));
-                }
-                for (let j = 0; j < inputModelFrame.length; j++) {
-                    let inputModel = inputModelFrame[j]; // Model
-                    let model = new Model(models.length, inputModel.name, inputModel.vertices, inputModel.colors, inputModel.joint, inputModel.translation, inputModel.rotation, inputModel.scale, inputModel.ch_translation, inputModel.ch_rotation, inputModel.ch_scale, inputModel.animation, inputModel.childs, m4.identity(), inputModel.textureMode);
-                    updateBuffers(model, i);
-                    // Check if models have enough frames else add empty frames
-                    if (models.length-1 < i) {
-                        models.push([]);
-                    }
-                    models[i].push(model);
-                }
+            for (let j = 0; j < inputModels.length; j++) {
+                let inputModel = inputModels[j]; // Model
+                let model = new Model(models.length, inputModel.name, inputModel.vertices, inputModel.colors, inputModel.joint, inputModel.translation, inputModel.rotation, inputModel.scale, inputModel.ch_translation, inputModel.ch_rotation, inputModel.ch_scale, inputModel.animation, inputModel.childs, m4.identity(), inputModel.textureMode);
+                updateBuffers(model);
+                // Check if models have enough frames else add empty frames
+                models.push(model);
             }
             selectModel.innerHTML = "";
-            for(let i=0; i< models[frame].length; i++) {
+            for(let i=0; i< models.length; i++) {
                 selectModel.appendChild(new Option("Model " + (i), i));
             }
-            selectedModel = models[frame][0];
+            selectedModel = models[0];
             selectedComponent = selectedModel;
             setupSelectedModel();
             // setupAnimation();
@@ -63,30 +47,6 @@ loadModels = () => {
         }
     }
     input.click();
-}
-
-setupAnimation = () => {
-    let frames = document.getElementById("animation-frame");
-    let frameName = document.getElementById("current-frame");
-    frames.innerHTML = "";
-    for (let i = 0; i < models.length; i++){
-        let button = document.createElement("button");
-        button.innerHTML = "frame " + i;
-        button.id = "frame-" + i;
-        button.style.marginLeft = 20 + "px";
-        button.className = "btn-comp";
-        button.onclick = () => {
-            frameName.innerHTML = button.innerHTML;
-            frame = i;
-            selectedModel = models[frame][0];
-            selectedComponent = selectedModel;
-            setupSelectedModel();
-            drawScene();
-        }
-        frames.insertRow().insertCell().appendChild(button);
-    }
-
-    frameName.innerHTML = "frame " + frame;
 }
 
 setupSelectedModel = () => {
