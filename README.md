@@ -42,7 +42,7 @@ git clone git@github.com:reynull20/IF3260_Tugas3_K01_G15.git
 - Bear (Beruang)
 
 <img
-  src="img/baling.png"
+  src="img/bear.png"
   alt="Articulated Model Beruang"
   title="Articulated Model Beruang"
   style="display: inline-block; margin: 0 auto; max-width: 600px">
