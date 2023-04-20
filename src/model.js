@@ -38,7 +38,7 @@ class Model {
     traverseAsArray = () => {
         if (this.name === "Torso") {
             this.updateMatrix()
-            this.updateAnimation()
+            this.updateAnimation()   
         }
         let array = [];
         array.push(this);
@@ -96,64 +96,91 @@ class Model {
         var nextAnim = this.animation[(this.currentAnimIndex+1)%this.animation.length];
         
         // Select current and next frame
-        if (nextAnim.time === 0 || then < 0.05) {
+        if (nextAnim.time === 0) {
             this.translation = nextAnim.translation;
-            this.rotation = nextAnim.rotation;
+            this.rotation = [
+                degToRad(nextAnim.rotation[0]),
+                degToRad(nextAnim.rotation[1]),
+                degToRad(nextAnim.rotation[2])
+            ];
             this.scale = nextAnim.scale
             this.joint_rotation = nextAnim.joint_rotation
             this.ch_translation = nextAnim.ch_translation
-            this.ch_rotation = nextAnim.ch_rotation
+            this.ch_rotation = [
+                degToRad(nextAnim.ch_rotation[0]),
+                degToRad(nextAnim.ch_rotation[1]),
+                degToRad(nextAnim.ch_rotation[2])
+            ]
             this.ch_scale = nextAnim.ch_scale
 
             this.currentAnimIndex = 0
             currentAnim = this.animation[this.currentAnimIndex]
             nextAnim = this.animation[(this.currentAnimIndex+1)%this.animation.length];
             time = 0;
+            pausedTime = currentAnim.time
         } else if (nextAnim.time < time + dt) {
+            this.translation = nextAnim.translation;
+            this.rotation = [
+                degToRad(nextAnim.rotation[0]),
+                degToRad(nextAnim.rotation[1]),
+                degToRad(nextAnim.rotation[2])
+            ];
+            this.scale = nextAnim.scale
+            this.joint_rotation = nextAnim.joint_rotation
+            this.ch_translation = nextAnim.ch_translation
+            this.ch_rotation = [
+                degToRad(nextAnim.ch_rotation[0]),
+                degToRad(nextAnim.ch_rotation[1]),
+                degToRad(nextAnim.ch_rotation[2])
+            ]
+            this.ch_scale = nextAnim.ch_scale
+            
             currentAnim = nextAnim
             this.currentAnimIndex = (this.currentAnimIndex + 1) % this.animation.length
             nextAnim = this.animation[(this.currentAnimIndex+1) % this.animation.length]
+            pausedTime = currentAnim.time
         }
 
         // Interpolate between current and next frame
-        var dTime = nextAnim.time - currentAnim.time // interval between next and current frame in seconds
+        // var dTime = nextAnim.time - currentAnim.time // interval between next and current frame in seconds
+        var dTime = nextAnim.time - time
         this.translation = [
-            this.translation[0] + (((nextAnim.translation[0] - currentAnim.translation[0])/dTime) * dt),
-            this.translation[1] + (((nextAnim.translation[1] - currentAnim.translation[1])/dTime) * dt),
-            this.translation[2] + (((nextAnim.translation[2] - currentAnim.translation[2])/dTime) * dt),
+            this.translation[0] + (((nextAnim.translation[0] - this.translation[0])/dTime) * dt),
+            this.translation[1] + (((nextAnim.translation[1] - this.translation[1])/dTime) * dt),
+            this.translation[2] + (((nextAnim.translation[2] - this.translation[2])/dTime) * dt),
         ]
         this.rotation = [
-            this.rotation[0] + (((nextAnim.rotation[0] - currentAnim.rotation[0])/dTime) * dt),
-            this.rotation[1] + (((nextAnim.rotation[1] - currentAnim.rotation[1])/dTime) * dt),
-            this.rotation[2] + (((nextAnim.rotation[2] - currentAnim.rotation[2])/dTime) * dt),
+            this.rotation[0] + (((degToRad(nextAnim.rotation[0]) - this.rotation[0])/dTime) * dt),
+            this.rotation[1] + (((degToRad(nextAnim.rotation[1]) - this.rotation[1])/dTime) * dt),
+            this.rotation[2] + (((degToRad(nextAnim.rotation[2]) - this.rotation[2])/dTime) * dt),
         ]
         this.scale = [
-            this.scale[0] + (((nextAnim.scale[0] - currentAnim.scale[0])/dTime) * dt),
-            this.scale[1] + (((nextAnim.scale[1] - currentAnim.scale[1])/dTime) * dt),
-            this.scale[2] + (((nextAnim.scale[2] - currentAnim.scale[2])/dTime) * dt),
+            this.scale[0] + (((nextAnim.scale[0] - this.scale[0])/dTime) * dt),
+            this.scale[1] + (((nextAnim.scale[1] - this.scale[1])/dTime) * dt),
+            this.scale[2] + (((nextAnim.scale[2] - this.scale[2])/dTime) * dt),
         ]
 
         this.joint_rotation = [
-            this.joint_rotation[0] + (((nextAnim.joint_rotation[0] - currentAnim.joint_rotation[0])/dTime) * dt),
-            this.joint_rotation[1] + (((nextAnim.joint_rotation[1] - currentAnim.joint_rotation[1])/dTime) * dt),
-            this.joint_rotation[2] + (((nextAnim.joint_rotation[2] - currentAnim.joint_rotation[2])/dTime) * dt),
+            this.joint_rotation[0] + (((degToRad(nextAnim.joint_rotation[0]) - this.joint_rotation[0])/dTime) * dt),
+            this.joint_rotation[1] + (((degToRad(nextAnim.joint_rotation[1]) - this.joint_rotation[1])/dTime) * dt),
+            this.joint_rotation[2] + (((degToRad(nextAnim.joint_rotation[2]) - this.joint_rotation[2])/dTime) * dt),
         ]
         this.ch_translation = [
-            this.ch_translation[0] + (((nextAnim.ch_translation[0] - currentAnim.ch_translation[0])/dTime) * dt),
-            this.ch_translation[1] + (((nextAnim.ch_translation[1] - currentAnim.ch_translation[1])/dTime) * dt),
-            this.ch_translation[2] + (((nextAnim.ch_translation[2] - currentAnim.ch_translation[2])/dTime) * dt),
+            this.ch_translation[0] + (((nextAnim.ch_translation[0] - this.ch_translation[0])/dTime) * dt),
+            this.ch_translation[1] + (((nextAnim.ch_translation[1] - this.ch_translation[1])/dTime) * dt),
+            this.ch_translation[2] + (((nextAnim.ch_translation[2] - this.ch_translation[2])/dTime) * dt),
         ]
         this.ch_rotation = [
-            this.ch_rotation[0] + (((nextAnim.ch_rotation[0] - currentAnim.ch_rotation[0])/dTime) * dt),
-            this.ch_rotation[1] + (((nextAnim.ch_rotation[1] - currentAnim.ch_rotation[1])/dTime) * dt),
-            this.ch_rotation[2] + (((nextAnim.ch_rotation[2] - currentAnim.ch_rotation[2])/dTime) * dt),
+            this.ch_rotation[0] + (((nextAnim.ch_rotation[0] - this.ch_rotation[0])/dTime) * dt),
+            this.ch_rotation[1] + (((nextAnim.ch_rotation[1] - this.ch_rotation[1])/dTime) * dt),
+            this.ch_rotation[2] + (((nextAnim.ch_rotation[2] - this.ch_rotation[2])/dTime) * dt),
         ]
         this.ch_scale = [
-            this.ch_scale[0] + (((nextAnim.ch_scale[0] - currentAnim.ch_scale[0])/dTime) * dt),
-            this.ch_scale[1] + (((nextAnim.ch_scale[1] - currentAnim.ch_scale[1])/dTime) * dt),
-            this.ch_scale[2] + (((nextAnim.ch_scale[2] - currentAnim.ch_scale[2])/dTime) * dt),
+            this.ch_scale[0] + (((nextAnim.ch_scale[0] - this.ch_scale[0])/dTime) * dt),
+            this.ch_scale[1] + (((nextAnim.ch_scale[1] - this.ch_scale[1])/dTime) * dt),
+            this.ch_scale[2] + (((nextAnim.ch_scale[2] - this.ch_scale[2])/dTime) * dt),
         ]
-        console.log("Current Frame :: " + currentAnim.time + "s");
+        // console.log("Current Frame :: " + currentAnim.time + "s");
     }
 
     modelMatrix = () => {

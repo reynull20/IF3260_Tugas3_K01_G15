@@ -15,6 +15,7 @@ setUpTools()
 var dt = 0.016;
 var then = 0;
 var time = 0;
+var pausedTime = 0;
 
 var translation = [0.0, 0.0, 0.0]
 var rotation = [0.0, 0.0, 0.0]
@@ -406,7 +407,7 @@ function setUpTools() {
     btnLoad.addEventListener("click", function(e) {loadModels();});
 
     const btnPauseStart = document.querySelector("#btn-pause");
-    btnPauseStart.addEventListener("click", function(e) {stopped=!stopped; if (stopped) btnPauseStart.innerHTML = "Start"; else btnPauseStart.innerHTML = "Stop"; requestAnimationFrame(drawScene);});
+    btnPauseStart.addEventListener("click", function(e) {stopped=!stopped; if (stopped) btnPauseStart.innerHTML = "Start"; else btnPauseStart.innerHTML = "Stop"; globalID = requestAnimationFrame(drawScene); pausedTime = time});
 
     const shadingCheck = document.querySelector("#shading-check");
     shadingCheck.addEventListener("change", function(e) {changeShading();});
@@ -480,10 +481,15 @@ function updateBuffers(model) {
 
 function drawScene(now) {
     // Get dt
-    now *= 0.001;
-    dt = now - then;
-    then = now;
-    time += dt;
+    if (stopped) {  
+        dt = 0
+        then = now * 0.001
+    } else {
+        now *= 0.001;
+        dt = now - then;
+        then = now;
+        time += dt;
+    }
 
     // Start Draw 
     gl.viewport(0,0,gl.canvas.width,gl.canvas.height)
@@ -650,14 +656,16 @@ function drawScene(now) {
             idx++;
         }
     }
+    // console.log(now);
 
     // Draw the next frame
-    if (!stopped){
+    // if (!stopped){
         globalID = requestAnimationFrame(drawScene);
-    }
-    else{
-        cancelAnimationFrame(globalID);
-    }
+    // }
+    // else{
+    //     // cancelAnimationFrame(globalID);
+    //     then
+    // }
 }
 
 function makeZToWMatrix(fudgeFactor) {
