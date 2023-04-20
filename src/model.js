@@ -1,7 +1,7 @@
 class Model {
-    constructor(id = -1, name = "Undefined", vertices = [], colors = [], joints = [], translation = [0,0,0], rotation = [0,0,0], scale = [0,0,0], ch_translation = [0,0,0], ch_rotation = [0,0,0], ch_scale = [0,0,0], animation = [], childs = [], parentMatrix = m4.identity(), textureMode = 0) {
+    constructor(id = -1, name = "Undefined", vertices = [], colors = [], joints = [], translation = [0,0,0], rotation = [0,0,0], scale = [0,0,0], ch_translation = [0,0,0], ch_rotation = [0,0,0], ch_scale = [0,0,0], animation = [], childs = [], parentMatrix = m4.identity(), textureMode = 2) {
         if(textureMode == null) {
-            textureMode = 0;
+            textureMode = 2;
         }
         this.id = id;
         this.name = name;
@@ -19,13 +19,13 @@ class Model {
         this.parentMatrix = parentMatrix;
         this.setupCenter();
         this.calculateNormals();
+        this.calculateTangents();
         this.matrix_child = this.modelMatrixChild(this.parentMatrix);
         this.matrix = this.modelMatrix();
         this.setupChilds(childs);
         this.currentAnimIndex = 0;
         this.setupTextureCoord(); // TODO: cek udah sesuai sama model ga
         this.textureMode = textureMode;
-        // TODO: this.getAllVectors(); // terutama untuk bump.        
     }
 
     setupChilds = (childs) => {
@@ -268,6 +268,31 @@ class Model {
             }
         }
         this.normals = normals;
+    }
+
+    calculateTangents = () => {
+        let tangents = [];
+        let bitangents = [];
+        for (let i = 0; i < this.vertices.length; i+=9) { // TODO: cek ini +9 sm +18 beda ga
+            let v1 = [this.vertices[i], this.vertices[i+1], this.vertices[i+2]];
+            let v2 = [this.vertices[i+3], this.vertices[i+4], this.vertices[i+5]];
+            let v3 = [this.vertices[i+6], this.vertices[i+7], this.vertices[i+8]];
+            let e1 = [v2[0] - v1[0], v2[1] - v1[1], v2[2] - v1[2]];
+            let e2 = [v3[0] - v1[0], v3[1] - v1[1], v3[2] - v1[2]];
+            const tangent = normalize(e1);
+            const bitangent = normalize(e2);
+            for (let j = 0; j < 3; j++) {
+                tangents.push(tangent[0]);
+                tangents.push(tangent[1]);
+                tangents.push(tangent[2]);
+                bitangents.push(bitangent[0]);
+                bitangents.push(bitangent[1]);
+                bitangents.push(bitangent[2]);
+            }
+        }
+
+        this.tangents = tangents;
+        this.bitangents = bitangents;
     }
 
     setupTextureCoord = () => {

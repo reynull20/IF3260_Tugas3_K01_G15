@@ -350,6 +350,7 @@ var fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource)
 var program = createProgram(gl, vertexShader, fragmentShader)
 
 // Bind matrix 
+var normalMatrixLoc = gl.getUniformLocation(program, "u_normalMatrix")
 var worldLoc = gl.getUniformLocation(program, "u_worldMatrix")
 var viewLoc = gl.getUniformLocation(program, "u_viewMatrix")
 var projectionLoc = gl.getUniformLocation(program, "u_projectionMatrix")
@@ -360,6 +361,8 @@ var positionAttrLoc = gl.getAttribLocation(program, "a_position")
 var colorLoc = gl.getAttribLocation(program,"a_color");
 var normalLoc = gl.getAttribLocation(program,"a_normal");
 var textureCoordLoc = gl.getAttribLocation(program, "a_textureCoord");
+var tangentLoc = gl.getAttribLocation(program, "a_tangent");
+var bitangentLoc = gl.getAttribLocation(program, "a_bitangent");
 var textureModeLoc = gl.getUniformLocation(program, "u_textureMode");
 var textureImageLoc = gl.getUniformLocation(program, "u_textureImage");
 var textureEnvironmentLoc = gl.getUniformLocation(program, "u_textureEnvironment");
@@ -370,10 +373,13 @@ var positionBuffers = [[]];
 var colorBuffers = [[]];
 var normalBuffers = [[]];
 var textureCoordBuffers = [[]];
+var tangentBuffers = [[]];
+var bitangentBuffers = [[]];
 
 // Load All Textures
 var textureImageBuffer = loadTextureImage(gl);
 var textureEnvironmentBuffer = loadTextureEnvironment(gl);
+var textureBumpBuffer = loadTextureBump(gl);
 // ============================= End of Initialization =============================
 
 // ============================= Rendering Code ============================
@@ -443,6 +449,8 @@ function updateBuffers(model, localFrame) {
         positionBuffers.push([]);
         colorBuffers.push([]);
         normalBuffers.push([]);
+        tangentBuffers.push([]);
+        bitangentBuffers.push([]);
         textureCoordBuffers.push([]);
     }
     var positionBuffer = gl.createBuffer();
@@ -457,6 +465,14 @@ function updateBuffers(model, localFrame) {
     gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
     setNormals(gl, model.normals);
     normalBuffers[localFrame].push(normalBuffer);
+    var tangentBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, tangentBuffer);
+    setTangents(gl, model.tangents);
+    tangentBuffers[localFrame].push(tangentBuffer);
+    var bitangentBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, bitangentBuffer);
+    setBitangents(gl, model.bitangents);
+    bitangentBuffers[localFrame].push(bitangentBuffer);
     // TODO: bind texture cek udh bener ga
     var textureCoordBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, textureCoordBuffer);
@@ -534,7 +550,10 @@ function drawScene(now) {
     gl.bindTexture(gl.TEXTURE_2D, textureImageBuffer);
     gl.uniform1i(textureEnvironmentLoc, 1);
     gl.activeTexture(gl.TEXTURE1);
-    gl.bindTexture(gl.TEXTURE_CUBE_MAP, textureEnvironmentBuffer);       
+    gl.bindTexture(gl.TEXTURE_CUBE_MAP, textureEnvironmentBuffer);
+    gl.uniform1i(textureBumpLoc, 2);
+    gl.activeTexture(gl.TEXTURE2);
+    gl.bindTexture(gl.TEXTURE_2D, textureBumpBuffer);       
     
     var idx = 0;
     for(let i = 0; i < models[frame].length; i++) {
@@ -582,6 +601,30 @@ function drawScene(now) {
             gl.vertexAttribPointer(
                 normalLoc, size, type, normalize, stride, offset);
 
+            // Tangent
+            gl.enableVertexAttribArray(tangentLoc)
+            gl.bindBuffer(gl.ARRAY_BUFFER,tangentBuffers[frame][idx])        
+            
+            var size = 3;                 // 3 components per iteration
+            var type = gl.FLOAT;          // the data is 32bit floats
+            var normalize = false;        // don't normalize the data
+            var stride = 0;               // 0 = move forward size * sizeof(type) each iteration to get the next position
+            var offset = 0;               // start at the beginning of the buffer
+            gl.vertexAttribPointer(
+                tangentLoc, size, type, normalize, stride, offset);
+
+            // Bitangent
+            gl.enableVertexAttribArray(bitangentLoc)
+            gl.bindBuffer(gl.ARRAY_BUFFER,bitangentBuffers[frame][idx])        
+            
+            var size = 3;                 // 3 components per iteration
+            var type = gl.FLOAT;          // the data is 32bit floats
+            var normalize = false;        // don't normalize the data
+            var stride = 0;               // 0 = move forward size * sizeof(type) each iteration to get the next position
+            var offset = 0;               // start at the beginning of the buffer
+            gl.vertexAttribPointer(
+                bitangentLoc, size, type, normalize, stride, offset);
+
             // Texture
             gl.enableVertexAttribArray(textureCoordLoc);
             gl.bindBuffer(gl.ARRAY_BUFFER, textureCoordBuffers[frame][idx]);
@@ -595,13 +638,15 @@ function drawScene(now) {
               textureCoordLoc, size, type, normalize, stride, offset);                         
 
             var worldMatrix = model.matrix;
-
+            var worldViewMatrix = m4.multiply(viewMatrix, worldMatrix);
+            var normalMatrix = m4.transpose(m4.inverse(worldViewMatrix));
             var worldViewProjectionMatrix = m4.multiply(viewProjectionMatrix, worldMatrix);
             var worldInverseMatrix = m4.inverse(worldMatrix);
             var worldInverseTransposeMatrix = m4.transpose(worldInverseMatrix);
 
             // Bind the matrix
             gl.uniformMatrix4fv(worldLoc, false, worldMatrix);
+            gl.uniformMatrix4fv(normalMatrixLoc, false, normalMatrix);
             gl.uniformMatrix4fv(worldInverseTransposeLoc,false,worldInverseTransposeMatrix);
 
             // Draw rectangle
@@ -644,6 +689,20 @@ function setNormals(gl, normals) {
     gl.bufferData(
         gl.ARRAY_BUFFER,
         new Float32Array(normals),
+        gl.STATIC_DRAW);
+}
+
+function setTangents(gl, tangents) {
+    gl.bufferData(
+        gl.ARRAY_BUFFER,
+        new Float32Array(tangents),
+        gl.STATIC_DRAW);
+}
+
+function setBitangents(gl, bitangents) {
+    gl.bufferData(
+        gl.ARRAY_BUFFER,
+        new Float32Array(bitangents),
         gl.STATIC_DRAW);
 }
 
@@ -758,6 +817,39 @@ function loadTextureEnvironment(gl) {
     gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
 
     return texture;
+}
+
+function loadTextureBump(gl) {
+    var texture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+
+    // Fill the texture with a 1x1 blue pixel.
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+                new Uint8Array([0, 0, 255, 255]));
+
+    // Asynchronously load an image
+    var image = new Image();
+    image.addEventListener('load', function() {
+        // Now that the image has loaded make copy it to the texture.
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+        // Check if the image is a power of 2 in both dimensions.
+        if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
+            // Yes, it's a power of 2. Generate mips.
+            console.log("power of 2");
+            gl.generateMipmap(gl.TEXTURE_2D);
+        } else {
+            // No, it's not a power of 2. Turn of mips and set wrapping to clamp to edge
+            // console.log("not power of 2");
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        }
+    });
+    image.crossOrigin = "";
+    image.src = "https://i.imgur.com/sNa9qaf.png";
+
+    return texture;    
 }
 
 function isPowerOf2(value) {
