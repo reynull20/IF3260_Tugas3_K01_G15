@@ -11,6 +11,11 @@ if (!gl) {
 // ============================= Initialization ============================= 
 setUpTools()
 
+// Animation Var
+var dt = 0.016;
+var then = 0;
+var time = 0;
+
 var translation = [0.0, 0.0, 0.0]
 var rotation = [0.0, 0.0, 0.0]
 var scale = [1.0, 1.0, 1.0]
@@ -372,7 +377,7 @@ var textureEnvironmentBuffer = loadTextureEnvironment(gl);
 // ============================= End of Initialization =============================
 
 // ============================= Rendering Code ============================
-drawScene()
+// requestAnimationFrame(drawScene)
 // ============================= End of Rendering Code =============================
 
 // =============================  Library ============================= 
@@ -463,7 +468,14 @@ function updateBuffers(model, localFrame) {
     }
 }
 
-function drawScene() {
+function drawScene(now) {
+    // Get dt
+    now *= 0.001;
+    dt = now - then;
+    then = now;
+    time += dt;
+
+    // Start Draw 
     gl.viewport(0,0,gl.canvas.width,gl.canvas.height)
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
     // gl.enable(gl.CULL_FACE) // Only show front-facing triangles, cull the back-facing one
@@ -527,7 +539,7 @@ function drawScene() {
     var idx = 0;
     for(let i = 0; i < models[frame].length; i++) {
         let model = models[frame][i];
-
+        
         traverse = model.traverseAsArray();
 
         for (let j = 0; j < traverse.length; j++) {
@@ -600,6 +612,9 @@ function drawScene() {
             idx++;
         }
     }
+
+    // Draw the next frame
+    requestAnimationFrame(drawScene);
 }
 
 function makeZToWMatrix(fudgeFactor) {
@@ -634,7 +649,7 @@ function setNormals(gl, normals) {
 
 function changeFOV(e) {
     fieldOfView = degToRad(parseInt(e.target.value))
-    drawScene()
+    requestAnimationFrame(drawScene)
 }
 
 function setTextureCoords(gl, textureCoord) {

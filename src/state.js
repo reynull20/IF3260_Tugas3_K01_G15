@@ -86,7 +86,7 @@ selectFrame.addEventListener("input", function (event) {
     console.log(selectedModel)
     selectedComponent = selectedModel;
     setupSelectedModel();
-    drawScene();
+    // requestAnimationFrame(drawScene);
 });
 
 const moveUpButton = document.getElementById("btn-move-up");
